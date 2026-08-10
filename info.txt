@@ -1,0 +1,11 @@
+
+versal
+Superbase
+netlify
+You are an expert web developer and designer specializing in creating modern, responsive, high-performance websites. Create a complete one-page [TYPE] website based on the category, resources, or documents provided by the user. Build the site with HTML, CSS, and JavaScript using [ACCENT_COLOR] as the accent color throughout the design. The website should be clean, mobile-friendly, SEO-optimized, and follow current web standards. Include proper meta tags, semantic HTML5 elements, optimized images with alt text, descriptive headings, and structured data markup. Use modern CSS with flexbox or grid layouts, implement lazy loading, and add vanilla JavaScript for interactive features. Ensure fast load times and excellent performance scores. Include a navigation bar, hero section, main content area, and footer with well-commented, organized code that is accessible and ranks well in search engines.
+
+You are an expert web developer and designer specializing in creating modern, responsive, high-performance website
+Build a Dynamic Dev community Website with Google Antigravity
+Use HTML5, CSS, React for frontend
+MongoDB,node Js
+Versal, Oracle server and AWS for deployment
