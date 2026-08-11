@@ -26,37 +26,37 @@ const LoginPage: React.FC = () => {
       </div>
 
       {/* Floating Code Decorations */}
-      <div className="absolute top-20 left-[10%] glass-card p-3 rounded-xl animate-float opacity-90 hidden lg:block">
+      <div className="absolute top-16 left-12 glass-card p-3 rounded-xl animate-float opacity-90 hidden lg:block">
         <code className="text-xs font-mono text-emerald-600 font-bold">
           const devxgen = new Community();
         </code>
       </div>
-      <div className="absolute bottom-32 right-[10%] glass-card p-3 rounded-xl animate-float opacity-90 hidden lg:block" style={{ animationDelay: '3s' }}>
+      <div className="absolute bottom-24 right-16 glass-card p-3 rounded-xl animate-float opacity-90 hidden lg:block" style={{ animationDelay: '3s' }}>
         <code className="text-xs font-mono text-primary-600 font-bold">
           await connect.developers();
         </code>
       </div>
-      <div className="absolute top-1/3 right-[15%] glass-card p-3 rounded-xl animate-float opacity-80 hidden xl:block" style={{ animationDelay: '1.5s' }}>
+      <div className="absolute top-1/3 right-12 glass-card p-3 rounded-xl animate-float opacity-80 hidden xl:block" style={{ animationDelay: '1.5s' }}>
         <code className="text-xs font-mono text-violet-600 font-bold">
           {'{ innovation: true }'}
         </code>
       </div>
-      <div className="absolute top-2/3 left-[15%] glass-card p-3 rounded-xl animate-float opacity-85 hidden xl:block" style={{ animationDelay: '2.5s' }}>
+      <div className="absolute top-2/3 left-16 glass-card p-3 rounded-xl animate-float opacity-85 hidden xl:block" style={{ animationDelay: '2.5s' }}>
         <code className="text-xs font-mono text-amber-600 font-bold">
           git commit -m "build together"
         </code>
       </div>
-      <div className="absolute top-10 right-[30%] glass-card p-3 rounded-xl animate-float opacity-75 hidden 2xl:block" style={{ animationDelay: '5s' }}>
+      <div className="absolute top-12 right-[25%] glass-card p-3 rounded-xl animate-float opacity-75 hidden 2xl:block" style={{ animationDelay: '5s' }}>
         <code className="text-xs font-mono text-rose-600 font-bold">
           npm run start
         </code>
       </div>
-      <div className="absolute bottom-20 left-[25%] glass-card p-3 rounded-xl animate-float opacity-80 hidden 2xl:block" style={{ animationDelay: '4s' }}>
+      <div className="absolute bottom-16 left-[30%] glass-card p-3 rounded-xl animate-float opacity-80 hidden 2xl:block" style={{ animationDelay: '4s' }}>
         <code className="text-xs font-mono text-cyan-600 font-bold">
           console.log("Hello World");
         </code>
       </div>
-      <div className="absolute top-1/2 left-[5%] glass-card p-3 rounded-xl animate-float opacity-70 hidden xl:block" style={{ animationDelay: '6s' }}>
+      <div className="absolute top-1/2 left-8 glass-card p-3 rounded-xl animate-float opacity-70 hidden xl:block" style={{ animationDelay: '6s' }}>
         <code className="text-xs font-mono text-teal-600 font-bold">
           import {'{ magic }'} from 'devxgen';
         </code>

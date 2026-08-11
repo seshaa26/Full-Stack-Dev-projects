@@ -56,7 +56,7 @@ export default {
         'slide-down': 'slideDown 0.3s ease-out',
         'scale-in': 'scaleIn 0.2s ease-out',
         'pulse-glow': 'pulseGlow 2s infinite',
-        'float': 'float 6s ease-in-out infinite',
+        'float': 'float 12s ease-in-out infinite',
         'shimmer': 'shimmer 2s linear infinite',
         'bounce-in': 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
         'spin-slow': 'spin 3s linear infinite',
@@ -83,8 +83,10 @@ export default {
           '50%': { boxShadow: '0 0 40px rgba(14, 165, 233, 0.6)' },
         },
         float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
+          '0%, 100%': { transform: 'translate(0px, 0px) rotate(0deg)' },
+          '25%': { transform: 'translate(20px, -20px) rotate(2deg)' },
+          '50%': { transform: 'translate(0px, -30px) rotate(0deg)' },
+          '75%': { transform: 'translate(-20px, -15px) rotate(-2deg)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },
