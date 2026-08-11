@@ -27,7 +27,7 @@
     overflow-x: hidden;
     
     /* ── Tech & Community Network Background ── */
-    background-color: #020617; /* surface-950 */
+    background-color: #f8fafc; /* surface-950 (Light Mode) */
     background-image: 
       /* Tech Grid Lines (Brighter) */
       linear-gradient(to right, rgba(10, 102, 194, 0.15) 1px, transparent 1px),
@@ -54,7 +54,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at center, transparent 0%, #020617 85%);
+    background: radial-gradient(circle at center, transparent 0%, #f8fafc 85%);
     pointer-events: none;
     z-index: -1;
   }
