@@ -25,6 +25,35 @@
     @apply bg-surface-950 text-surface-100 font-sans;
     min-height: 100vh;
     overflow-x: hidden;
+    
+    /* ── Tech Grid Background ── */
+    background-color: #020617; /* surface-950 */
+    background-image: 
+      linear-gradient(to right, rgba(14, 165, 233, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(14, 165, 233, 0.04) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+    background-position: center top;
+    background-attachment: fixed;
+    animation: gridScroll 40s linear infinite;
+  }
+
+  /* Fade out the grid at the edges for depth */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, #020617 85%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @keyframes gridScroll {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 3rem 3rem;
+    }
   }
 
   /* Custom scrollbar */
