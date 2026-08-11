@@ -29,9 +29,9 @@
     /* ── Tech & Community Network Background ── */
     background-color: #f8fafc; /* surface-950 (Light Mode) */
     background-image: 
-      /* Community Nodes (Dots only, no square grid) */
-      radial-gradient(circle, rgba(0, 119, 181, 1.0) 2px, transparent 2px),
-      radial-gradient(circle, rgba(10, 102, 194, 0.9) 1.5px, transparent 1.5px);
+      /* Community Nodes (Dots only, smaller size) */
+      radial-gradient(circle, rgba(0, 119, 181, 1.0) 1.5px, transparent 1.5px),
+      radial-gradient(circle, rgba(10, 102, 194, 0.9) 1px, transparent 1px);
     background-size: 
       4rem 4rem, 
       4rem 4rem,

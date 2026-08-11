@@ -35,11 +35,11 @@ export default {
           800: '#ffffff', /* Card Bg */
           700: '#cbd5e1', /* Borders (Slate 300) */
           600: '#94a3b8',
-          500: '#475569',
-          400: '#334155', /* Muted Text (Slate 700 - Much Darker) */
-          300: '#1e293b',
-          200: '#0f172a', /* Secondary Text (Slate 900) */
-          100: '#020617', /* Primary Text (Pitch Black) */
+          500: '#64748b',
+          400: '#475569', /* Muted Text (Slate 600 - Softer) */
+          300: '#334155',
+          200: '#1e293b', /* Secondary Text (Slate 800) */
+          100: '#0f172a', /* Primary Text (Slate 900 - Softer) */
           50: '#000000',
         },
       },

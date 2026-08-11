@@ -51,11 +51,7 @@ const LoginPage: React.FC = () => {
           npm run start
         </code>
       </div>
-      <div className="absolute bottom-16 left-[30%] glass-card p-3 rounded-xl animate-float opacity-80 hidden 2xl:block" style={{ animationDelay: '4s' }}>
-        <code className="text-xs font-mono text-cyan-600 font-bold">
-          console.log("Hello World");
-        </code>
-      </div>
+
       <div className="absolute top-1/2 left-8 glass-card p-3 rounded-xl animate-float opacity-70 hidden xl:block" style={{ animationDelay: '6s' }}>
         <code className="text-xs font-mono text-teal-600 font-bold">
           import {'{ magic }'} from 'devxgen';
