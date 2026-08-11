@@ -17,31 +17,38 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden" id="login-page">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-surface-950">
-        {/* Gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-600/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-violet-600/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
-
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgxNDgsMTYzLDE4NCwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-60" />
+      {/* Background Enhancements (Global Network Grid shows underneath) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Gradient orbs (Brighter for Light Mode) */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/30 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary-700/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
       </div>
 
       {/* Floating Code Decorations */}
-      <div className="absolute top-20 left-10 glass-card p-3 rounded-xl animate-float opacity-40 hidden lg:block">
-        <code className="text-xs font-mono text-emerald-400">
+      <div className="absolute top-20 left-[10%] glass-card p-3 rounded-xl animate-float opacity-90 hidden lg:block">
+        <code className="text-xs font-mono text-emerald-600 font-bold">
           const devxgen = new Community();
         </code>
       </div>
-      <div className="absolute bottom-32 right-16 glass-card p-3 rounded-xl animate-float opacity-30 hidden lg:block" style={{ animationDelay: '3s' }}>
-        <code className="text-xs font-mono text-cyan-400">
+      <div className="absolute bottom-32 right-[10%] glass-card p-3 rounded-xl animate-float opacity-90 hidden lg:block" style={{ animationDelay: '3s' }}>
+        <code className="text-xs font-mono text-primary-600 font-bold">
           await connect.developers();
         </code>
       </div>
-      <div className="absolute top-1/3 right-20 glass-card p-3 rounded-xl animate-float opacity-25 hidden xl:block" style={{ animationDelay: '1.5s' }}>
-        <code className="text-xs font-mono text-violet-400">
+      <div className="absolute top-1/3 right-[15%] glass-card p-3 rounded-xl animate-float opacity-80 hidden xl:block" style={{ animationDelay: '1.5s' }}>
+        <code className="text-xs font-mono text-violet-600 font-bold">
           {'{ innovation: true }'}
+        </code>
+      </div>
+      <div className="absolute top-2/3 left-[15%] glass-card p-3 rounded-xl animate-float opacity-85 hidden xl:block" style={{ animationDelay: '2.5s' }}>
+        <code className="text-xs font-mono text-amber-600 font-bold">
+          git commit -m "build together"
+        </code>
+      </div>
+      <div className="absolute top-10 right-[30%] glass-card p-3 rounded-xl animate-float opacity-75 hidden 2xl:block" style={{ animationDelay: '5s' }}>
+        <code className="text-xs font-mono text-rose-600 font-bold">
+          npm run start
         </code>
       </div>
 
