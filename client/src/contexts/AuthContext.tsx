@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { User } from '../types';
-import { loginWithGoogle } from '../services/authService';
+import { loginWithGoogle, loginWithOracle } from '../services/authService';
 import api from '../services/api';
 import { GOOGLE_CLIENT_ID } from '../utils/constants';
 
@@ -10,6 +10,7 @@ interface AuthContextType {
   loading: boolean;
   isAuthenticated: boolean;
   login: (credential: string) => Promise<void>;
+  loginOracle: (code: string) => Promise<void>;
   logout: () => void;
   updateUser: (user: User) => void;
 }
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   isAuthenticated: false,
   login: async () => {},
+  loginOracle: async () => {},
   logout: () => {},
   updateUser: () => {},
 });
@@ -55,7 +57,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('devxgen_user', JSON.stringify(data.user));
       setUser(data.user);
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Google login failed:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const loginOracle = useCallback(async (code: string) => {
+    try {
+      setLoading(true);
+      const data = await loginWithOracle(code);
+      localStorage.setItem('devxgen_token', data.token);
+      localStorage.setItem('devxgen_user', JSON.stringify(data.user));
+      setUser(data.user);
+    } catch (error) {
+      console.error('Oracle login failed:', error);
       throw error;
     } finally {
       setLoading(false);
@@ -81,6 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           loading,
           isAuthenticated: !!user,
           login,
+          loginOracle,
           logout,
           updateUser,
         }}
@@ -90,3 +108,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     </GoogleOAuthProvider>
   );
 };
+

@@ -1,7 +1,11 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
+export type AuthProvider = 'google' | 'oracle' | 'both';
+
 export interface IUser extends Document {
-  googleId: string;
+  googleId?: string;
+  oracleId?: string;
+  authProvider: AuthProvider;
   name: string;
   email: string;
   avatar: string;
@@ -14,9 +18,20 @@ const userSchema = new Schema<IUser>(
   {
     googleId: {
       type: String,
-      required: true,
       unique: true,
+      sparse: true, // Allows multiple documents with null/undefined googleId
       index: true,
+    },
+    oracleId: {
+      type: String,
+      unique: true,
+      sparse: true, // Allows multiple documents with null/undefined oracleId
+      index: true,
+    },
+    authProvider: {
+      type: String,
+      enum: ['google', 'oracle', 'both'],
+      default: 'google',
     },
     name: {
       type: String,

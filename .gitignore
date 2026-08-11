@@ -7,10 +7,13 @@ node_modules/
 dist/
 dist-ssr/
 
-# Environment variables (secrets!)
+# Environment variables and credential keys (secrets!)
 .env
 .env.local
 .env.*.local
+*.csv
+*client_secret*.json
+infome.txt
 # Keep templates for reference
 !.env.production
 !.env.example

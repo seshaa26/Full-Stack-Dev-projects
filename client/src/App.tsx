@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import NotFoundPage from './pages/NotFoundPage';
+import OracleCallbackPage from './pages/OracleCallbackPage';
 
 // Protected Route wrapper
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -26,6 +27,8 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      {/* Oracle OAuth callback — must be public (user isn't logged in yet) */}
+      <Route path="/auth/oracle/callback" element={<OracleCallbackPage />} />
       <Route path="/" element={<HomePage />} />
       <Route
         path="/profile"

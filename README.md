@@ -1,6 +1,6 @@
 # DevXGen — Developer Community Platform
 
-> Where developers connect, share & grow | [devxgen.in](https://devxgen.in)
+> Where developers Interact, share & grow | [devxgen.in](https://devxgen.in)
 
 ---
 

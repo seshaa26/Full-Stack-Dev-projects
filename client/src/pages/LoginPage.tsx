@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Code2, Terminal, Zap, Users } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import GoogleLoginButton from '../components/auth/GoogleLoginButton';
+import OracleLoginButton from '../components/auth/OracleLoginButton';
 
 const LoginPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -54,7 +55,7 @@ const LoginPage: React.FC = () => {
           </div>
           <h1 className="text-4xl font-extrabold gradient-text mb-2">DevXGen</h1>
           <p className="text-surface-400 text-lg">
-            Where developers connect, share & grow
+            Where developers Interact, share & grow
           </p>
         </div>
 
@@ -63,8 +64,21 @@ const LoginPage: React.FC = () => {
           <h2 className="text-lg font-bold text-surface-100 text-center mb-6">
             Join the Community
           </h2>
+
+          {/* Google Sign-In */}
           <GoogleLoginButton />
-          <p className="text-xs text-surface-500 text-center mt-4">
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-4">
+            <div className="flex-1 h-px bg-surface-700/50" />
+            <span className="text-xs text-surface-500 font-medium uppercase tracking-wider">or</span>
+            <div className="flex-1 h-px bg-surface-700/50" />
+          </div>
+
+          {/* Oracle Sign-In */}
+          <OracleLoginButton />
+
+          <p className="text-xs text-surface-500 text-center mt-5">
             By signing in, you agree to our Terms of Service and Privacy Policy
           </p>
         </div>

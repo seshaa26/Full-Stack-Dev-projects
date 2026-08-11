@@ -8,17 +8,17 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
+          950: '#082f49',
         },
         violet: {
           500: '#8b5cf6',
@@ -79,8 +79,8 @@ export default {
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
         pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)' },
-          '50%': { boxShadow: '0 0 40px rgba(99, 102, 241, 0.6)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(14, 165, 233, 0.3)' },
+          '50%': { boxShadow: '0 0 40px rgba(14, 165, 233, 0.6)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
@@ -100,7 +100,7 @@ export default {
       boxShadow: {
         'glass': '0 8px 32px rgba(0, 0, 0, 0.12)',
         'glass-lg': '0 16px 64px rgba(0, 0, 0, 0.16)',
-        'neon': '0 0 20px rgba(99, 102, 241, 0.4), 0 0 60px rgba(99, 102, 241, 0.1)',
+        'neon': '0 0 20px rgba(14, 165, 233, 0.4), 0 0 60px rgba(14, 165, 233, 0.1)',
         'neon-cyan': '0 0 20px rgba(6, 182, 212, 0.4), 0 0 60px rgba(6, 182, 212, 0.1)',
       },
     },
