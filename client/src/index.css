@@ -26,15 +26,27 @@
     min-height: 100vh;
     overflow-x: hidden;
     
-    /* ── Tech Grid Background ── */
+    /* ── Tech & Community Network Background ── */
     background-color: #020617; /* surface-950 */
     background-image: 
-      linear-gradient(to right, rgba(14, 165, 233, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(14, 165, 233, 0.04) 1px, transparent 1px);
-    background-size: 3rem 3rem;
-    background-position: center top;
+      /* Tech Grid Lines */
+      linear-gradient(to right, rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+      /* Community Nodes (Dots) */
+      radial-gradient(circle, rgba(6, 182, 212, 0.2) 2px, transparent 2px),
+      radial-gradient(circle, rgba(14, 165, 233, 0.15) 1.5px, transparent 1.5px);
+    background-size: 
+      4rem 4rem, 
+      4rem 4rem,
+      2rem 2rem, 
+      3rem 3rem;
+    background-position: 
+      0 0, 
+      0 0, 
+      1rem 1rem, 
+      1.5rem 1.5rem;
     background-attachment: fixed;
-    animation: gridScroll 40s linear infinite;
+    animation: networkScroll 60s linear infinite;
   }
 
   /* Fade out the grid at the edges for depth */
@@ -47,12 +59,12 @@
     z-index: -1;
   }
 
-  @keyframes gridScroll {
+  @keyframes networkScroll {
     0% {
-      background-position: 0 0;
+      background-position: 0 0, 0 0, 1rem 1rem, 1.5rem 1.5rem;
     }
     100% {
-      background-position: 3rem 3rem;
+      background-position: 4rem 4rem, 4rem 4rem, 5rem 5rem, 4.5rem 4.5rem;
     }
   }
 
