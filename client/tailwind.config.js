@@ -29,18 +29,18 @@ export default {
           500: '#06b6d4',
         },
         surface: {
-          950: '#f8fafc',
-          900: '#f1f5f9',
-          850: '#f1f5f9',
-          800: '#ffffff',
-          700: '#e2e8f0',
-          600: '#cbd5e1',
-          500: '#94a3b8',
-          400: '#64748b',
-          300: '#475569',
-          200: '#334155',
-          100: '#1e293b',
-          50: '#0f172a',
+          950: '#f8fafc', /* Main Bg */
+          900: '#f1f5f9', /* Alt Bg */
+          850: '#ffffff',
+          800: '#ffffff', /* Card Bg */
+          700: '#cbd5e1', /* Borders (Slate 300) */
+          600: '#94a3b8',
+          500: '#475569',
+          400: '#334155', /* Muted Text (Slate 700 - Much Darker) */
+          300: '#1e293b',
+          200: '#0f172a', /* Secondary Text (Slate 900) */
+          100: '#020617', /* Primary Text (Pitch Black) */
+          50: '#000000',
         },
       },
       fontFamily: {
