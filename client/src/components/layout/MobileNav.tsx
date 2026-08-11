@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, PlusCircle, User, Bell } from 'lucide-react';
+import { Home, PlusCircle, User, Bell, LogIn } from 'lucide-react';
 import { useSocket } from '../../contexts/SocketContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface MobileNavProps {
   onCreatePost: () => void;
@@ -10,12 +11,17 @@ interface MobileNavProps {
 const MobileNav: React.FC<MobileNavProps> = ({ onCreatePost }) => {
   const location = useLocation();
   const { notifications } = useSocket();
+  const { isAuthenticated } = useAuth();
 
   const items = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: PlusCircle, label: 'Create', action: onCreatePost },
-    { icon: Bell, label: 'Alerts', path: '/notifications', badge: notifications.length },
-    { icon: User, label: 'Profile', path: '/profile' },
+    ...(isAuthenticated ? [
+      { icon: PlusCircle, label: 'Create', action: onCreatePost },
+      { icon: Bell, label: 'Alerts', path: '/notifications', badge: notifications.length },
+      { icon: User, label: 'Profile', path: '/profile' }
+    ] : [
+      { icon: LogIn, label: 'Login', path: '/login' }
+    ])
   ];
 
   return (

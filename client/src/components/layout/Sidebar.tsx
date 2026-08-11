@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, TrendingUp, Bookmark, Plus } from 'lucide-react';
 import { POPULAR_TAGS } from '../../utils/constants';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface SidebarProps {
   selectedTag: string | null;
@@ -11,6 +12,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ selectedTag, onTagSelect, onCreatePost }) => {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
 
   const navItems = [
     { icon: Home, label: 'Home Feed', path: '/' },
@@ -46,14 +48,16 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedTag, onTagSelect, onCreatePos
         </div>
 
         {/* Create Post Button */}
-        <button
-          onClick={onCreatePost}
-          className="w-full btn-primary flex items-center justify-center gap-2 py-3"
-          id="sidebar-create-post"
-        >
-          <Plus size={18} />
-          Create Post
-        </button>
+        {isAuthenticated && (
+          <button
+            onClick={onCreatePost}
+            className="w-full btn-primary flex items-center justify-center gap-2 py-3"
+            id="sidebar-create-post"
+          >
+            <Plus size={18} />
+            Create Post
+          </button>
+        )}
 
         {/* Topic Tags */}
         <div className="glass-card p-4">
