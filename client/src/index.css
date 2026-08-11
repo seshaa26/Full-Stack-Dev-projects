@@ -29,12 +29,12 @@
     /* ── Tech & Community Network Background ── */
     background-color: #f8fafc; /* surface-950 (Light Mode) */
     background-image: 
-      /* Tech Grid Lines (Brighter) */
-      linear-gradient(to right, rgba(10, 102, 194, 0.15) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(10, 102, 194, 0.15) 1px, transparent 1px),
-      /* Community Nodes (Brighter Dots) */
-      radial-gradient(circle, rgba(0, 119, 181, 0.4) 2px, transparent 2px),
-      radial-gradient(circle, rgba(10, 102, 194, 0.3) 1.5px, transparent 1.5px);
+      /* Tech Grid Lines (Darker for Light Mode) */
+      linear-gradient(to right, rgba(10, 102, 194, 0.25) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10, 102, 194, 0.25) 1px, transparent 1px),
+      /* Community Nodes (Darker Dots) */
+      radial-gradient(circle, rgba(0, 119, 181, 0.6) 2px, transparent 2px),
+      radial-gradient(circle, rgba(10, 102, 194, 0.4) 1.5px, transparent 1.5px);
     background-size: 
       4rem 4rem, 
       4rem 4rem,
@@ -87,8 +87,8 @@
 @layer components {
   /* ── Glassmorphism Cards ── */
   .glass-card {
-    @apply bg-surface-800/70 backdrop-blur-xl border border-surface-700/50 rounded-2xl;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    @apply bg-surface-800 backdrop-blur-xl border border-surface-700 rounded-2xl;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   }
 
   .glass-card-hover {
@@ -96,7 +96,7 @@
   }
   .glass-card-hover:hover {
     @apply border-primary-500/30 -translate-y-0.5;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 20px rgba(99, 102, 241, 0.08);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 0 20px rgba(10, 102, 194, 0.08);
   }
 
   /* ── Gradient Backgrounds ── */
@@ -136,8 +136,8 @@
 
   .btn-secondary {
     @apply px-6 py-2.5 rounded-xl font-semibold transition-all duration-200
-           bg-surface-700/80 text-surface-200 border border-surface-600/50
-           hover:bg-surface-600/80 hover:text-white hover:border-surface-500
+           bg-surface-800 text-surface-100 border border-surface-600
+           hover:bg-surface-700 hover:text-surface-50 hover:border-surface-500
            active:scale-[0.98];
   }
 
@@ -149,7 +149,7 @@
 
   /* ── Input Fields ── */
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl bg-surface-800/80 border border-surface-600/50
+    @apply w-full px-4 py-3 rounded-xl bg-surface-900 border border-surface-600
            text-surface-100 placeholder-surface-500 
            focus:outline-none focus:border-primary-500/60 focus:ring-2 focus:ring-primary-500/20
            transition-all duration-200;
