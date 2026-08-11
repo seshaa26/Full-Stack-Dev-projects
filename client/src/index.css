@@ -102,7 +102,7 @@
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-400 via-primary-300 to-blue-200 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-600 via-primary-500 to-violet-600 bg-clip-text text-transparent;
   }
 
   .gradient-border {

@@ -107,8 +107,8 @@ const LoginPage: React.FC = () => {
               key={feature.label}
               className="text-center p-3 rounded-xl bg-surface-800/30 border border-surface-700/20"
             >
-              <feature.icon size={20} className="mx-auto mb-1.5 text-primary-400" />
-              <p className="text-[11px] text-surface-400 font-medium">{feature.label}</p>
+              <feature.icon size={20} className="mx-auto mb-1.5 text-primary-600" />
+              <p className="text-[11px] text-surface-200 font-bold">{feature.label}</p>
             </div>
           ))}
         </div>
