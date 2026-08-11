@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Code2, Menu, X, LogOut, User, Search } from 'lucide-react';
+import { Menu, X, LogOut, User, Search } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import Avatar from '../ui/Avatar';
+import Logo from '../ui/Logo';
 import NotificationBell from '../ui/NotificationBell';
 
 const Navbar: React.FC = () => {
@@ -23,10 +24,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group" id="nav-logo">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-primary-600 to-violet-600 
-                          group-hover:shadow-neon transition-shadow duration-300">
-              <Code2 size={22} className="text-white" />
-            </div>
+            <Logo size="sm" animate={false} className="mr-1" />
             <span className="text-xl font-bold gradient-text hidden sm:block">
               DevXgen
             </span>

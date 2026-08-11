@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Code2, Terminal, Zap, Users } from 'lucide-react';
+import { Terminal, Zap, Users } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import GoogleLoginButton from '../components/auth/GoogleLoginButton';
 import OracleLoginButton from '../components/auth/OracleLoginButton';
+import Logo from '../components/ui/Logo';
 
 const LoginPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -61,11 +62,8 @@ const LoginPage: React.FC = () => {
       {/* Main Content */}
       <div className="relative z-10 w-full max-w-md px-6 animate-scale-in">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-primary-600 to-violet-600 
-                        shadow-neon mb-6 animate-pulse-glow">
-            <Code2 size={40} className="text-white" />
-          </div>
+        <div className="text-center mb-8 flex flex-col items-center">
+          <Logo size="xl" className="mb-6" />
           <h1 className="text-4xl font-extrabold gradient-text mb-2">DevXgen</h1>
           <p className="text-surface-400 text-lg">
             Where Developers Interact, Share & Grow
