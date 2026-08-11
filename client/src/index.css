@@ -30,11 +30,11 @@
     background-color: #020617; /* surface-950 */
     background-image: 
       /* Tech Grid Lines (Brighter) */
-      linear-gradient(to right, rgba(14, 165, 233, 0.15) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(14, 165, 233, 0.15) 1px, transparent 1px),
+      linear-gradient(to right, rgba(10, 102, 194, 0.15) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10, 102, 194, 0.15) 1px, transparent 1px),
       /* Community Nodes (Brighter Dots) */
-      radial-gradient(circle, rgba(6, 182, 212, 0.4) 2px, transparent 2px),
-      radial-gradient(circle, rgba(14, 165, 233, 0.3) 1.5px, transparent 1.5px);
+      radial-gradient(circle, rgba(0, 119, 181, 0.4) 2px, transparent 2px),
+      radial-gradient(circle, rgba(10, 102, 194, 0.3) 1.5px, transparent 1.5px);
     background-size: 
       4rem 4rem, 
       4rem 4rem,
@@ -101,11 +101,11 @@
 
   /* ── Gradient Backgrounds ── */
   .gradient-primary {
-    @apply bg-gradient-to-r from-primary-600 to-cyan-500;
+    @apply bg-gradient-to-r from-primary-700 to-primary-500;
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-sky-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-400 via-primary-300 to-blue-200 bg-clip-text text-transparent;
   }
 
   .gradient-border {
@@ -118,7 +118,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, #0284c7, #06b6d4, #14b8a6);
+    background: linear-gradient(135deg, #0a66c2, #0077b5, #5ca2e5);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -128,8 +128,8 @@
   /* ── Buttons ── */
   .btn-primary {
     @apply px-6 py-2.5 rounded-xl font-semibold text-white transition-all duration-200 
-           bg-gradient-to-r from-primary-600 to-cyan-500
-           hover:from-primary-500 hover:to-cyan-400 
+           bg-gradient-to-r from-primary-700 to-primary-500
+           hover:from-primary-600 hover:to-primary-400 
            hover:shadow-neon active:scale-[0.98]
            disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none;
   }
