@@ -29,7 +29,14 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<LoginPage />} />
       {/* Oracle OAuth callback — must be public (user isn't logged in yet) */}
       <Route path="/auth/oracle/callback" element={<OracleCallbackPage />} />
-      <Route path="/" element={<HomePage />} />
+      <Route 
+        path="/" 
+        element={
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        } 
+      />
       <Route
         path="/profile"
         element={
