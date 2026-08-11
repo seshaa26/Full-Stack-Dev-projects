@@ -29,10 +29,7 @@
     /* ── Tech & Community Network Background ── */
     background-color: #f8fafc; /* surface-950 (Light Mode) */
     background-image: 
-      /* Tech Grid Lines (Darker for Light Mode) */
-      linear-gradient(to right, rgba(10, 102, 194, 0.8) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(10, 102, 194, 0.8) 1px, transparent 1px),
-      /* Community Nodes (Darker Dots) */
+      /* Community Nodes (Dots only, no square grid) */
       radial-gradient(circle, rgba(0, 119, 181, 1.0) 2px, transparent 2px),
       radial-gradient(circle, rgba(10, 102, 194, 0.9) 1.5px, transparent 1.5px);
     background-size: 
