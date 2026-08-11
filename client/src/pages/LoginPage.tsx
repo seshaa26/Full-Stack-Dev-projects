@@ -91,7 +91,7 @@ const LoginPage: React.FC = () => {
           {/* Oracle Sign-In */}
           <OracleLoginButton />
 
-          <p className="text-xs text-surface-500 text-center mt-5">
+          <p className="text-xs text-surface-300 font-medium text-center mt-5">
             By signing in, you agree to our Terms of Service and Privacy Policy
           </p>
         </div>
