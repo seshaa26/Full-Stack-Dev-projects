@@ -60,9 +60,9 @@ const LoginPage: React.FC = () => {
                         shadow-neon mb-6 animate-pulse-glow">
             <Code2 size={40} className="text-white" />
           </div>
-          <h1 className="text-4xl font-extrabold gradient-text mb-2">DevXGen</h1>
+          <h1 className="text-4xl font-extrabold gradient-text mb-2">DevXgen</h1>
           <p className="text-surface-400 text-lg">
-            Where developers Interact, share & grow
+            Where Developers Interact, Share & Grow
           </p>
         </div>
 

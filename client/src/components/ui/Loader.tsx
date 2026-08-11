@@ -29,7 +29,7 @@ export const PageLoader: React.FC = () => (
   <div className="min-h-screen flex items-center justify-center bg-surface-950">
     <div className="text-center">
       <Loader size="lg" className="mb-4" />
-      <p className="text-surface-400 text-sm animate-pulse">Loading DevXGen...</p>
+      <p className="text-surface-400 text-sm animate-pulse">Loading DevXgen...</p>
     </div>
   </div>
 );

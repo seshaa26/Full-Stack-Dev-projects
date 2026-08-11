@@ -281,7 +281,7 @@ const HomePage: React.FC = () => {
                   Community
                 </h3>
                 <div className="text-center py-4">
-                  <p className="text-2xl font-bold gradient-text">DevXGen</p>
+                  <p className="text-2xl font-bold gradient-text">DevXgen</p>
                   <p className="text-xs text-surface-400 mt-1">Growing every day 🚀</p>
                 </div>
               </div>

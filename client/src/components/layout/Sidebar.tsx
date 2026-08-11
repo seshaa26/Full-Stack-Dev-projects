@@ -80,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedTag, onTagSelect, onCreatePos
 
         {/* Footer info */}
         <div className="px-3 text-xs text-surface-500 space-y-1">
-          <p>© 2026 DevXGen.in</p>
+          <p>© 2026 DevXgen.in</p>
           <p>Built for developers, by developers.</p>
         </div>
       </div>

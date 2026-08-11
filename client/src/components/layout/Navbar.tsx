@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
               <Code2 size={22} className="text-white" />
             </div>
             <span className="text-xl font-bold gradient-text hidden sm:block">
-              DevXGen
+              DevXgen
             </span>
           </Link>
 
