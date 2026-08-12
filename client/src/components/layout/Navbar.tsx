@@ -27,7 +27,12 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group" id="nav-logo">
+          <Link 
+            to="/" 
+            className="flex items-center gap-3 group" 
+            id="nav-logo"
+            onClick={() => setSearchQuery('')}
+          >
             <Logo size="sm" animate={false} className="mr-1" />
             <span className="text-xl font-bold gradient-text hidden sm:block">
               DevXgen
@@ -66,13 +71,13 @@ const Navbar: React.FC = () => {
                     setShowNotifications(!showNotifications);
                     setShowDropdown(false);
                   }} />
-                  
+
                   {showNotifications && (
                     <div className="absolute right-0 mt-2 w-72 glass-card p-2 animate-slide-down z-50">
                       <div className="flex items-center justify-between px-3 py-2 border-b border-surface-700/50 mb-1">
                         <h3 className="text-sm font-semibold text-surface-100">Notifications</h3>
                         {notifications.length > 0 && (
-                          <button 
+                          <button
                             onClick={clearNotifications}
                             className="text-xs text-primary-400 hover:text-primary-300"
                           >
@@ -90,7 +95,7 @@ const Navbar: React.FC = () => {
                               if (notif.type === 'comment') msg = 'Someone commented on your post';
                               if (notif.type === 'reaction') msg = 'Someone reacted to your post';
                               if (notif.type === 'poll') msg = 'Someone voted on your poll';
-                              
+
                               return (
                                 <div key={idx} className="px-3 py-2 hover:bg-surface-700/50 rounded-lg transition-colors cursor-pointer" onClick={() => {
                                   navigate(`/#post-${notif.postId}`);
