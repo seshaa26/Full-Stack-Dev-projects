@@ -55,10 +55,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isOwn = false, onEdit }
         {/* Meta Info */}
         <div className="flex flex-wrap gap-4 text-xs text-surface-400">
           <span className="flex items-center gap-1.5">
-            <Mail size={13} />
-            {user.email}
-          </span>
-          <span className="flex items-center gap-1.5">
             <Calendar size={13} />
             Member since {memberSince}
           </span>

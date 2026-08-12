@@ -13,6 +13,7 @@ interface EditProfileModalProps {
 }
 
 const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, user, onUpdate }) => {
+  const [name, setName] = useState(user.name || '');
   const [bio, setBio] = useState(user.bio || '');
   const [skills, setSkills] = useState<string[]>(user.skills || []);
   const [skillInput, setSkillInput] = useState('');
@@ -33,7 +34,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await api.put('/users/profile', { bio, skills });
+      const response = await api.put('/users/profile', { name, bio, skills });
       onUpdate(response.data.user);
       onClose();
     } catch (error) {
@@ -46,6 +47,20 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Edit Profile" maxWidth="max-w-lg">
       <div className="space-y-5">
+        {/* Name */}
+        <div>
+          <label className="text-sm font-medium text-surface-300 mb-2 block">Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your full name"
+            className="input-field"
+            maxLength={50}
+            id="edit-name"
+          />
+        </div>
+
         {/* Bio */}
         <div>
           <label className="text-sm font-medium text-surface-300 mb-2 block">Bio</label>

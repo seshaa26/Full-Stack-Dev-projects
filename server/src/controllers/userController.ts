@@ -26,12 +26,13 @@ export const getMe = async (req: AuthRequest, res: Response): Promise<void> => {
  */
 export const updateProfile = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { bio, skills, avatar } = req.body;
+    const { bio, skills, avatar, name } = req.body;
     const updateData: any = {};
 
     if (bio !== undefined) updateData.bio = bio;
     if (skills !== undefined) updateData.skills = skills;
     if (avatar !== undefined) updateData.avatar = avatar;
+    if (name !== undefined) updateData.name = name;
 
     const user = await User.findByIdAndUpdate(
       req.userId,
