@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, LogOut, User, Search } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useSocket } from '../../contexts/SocketContext';
 import Avatar from '../ui/Avatar';
 import Logo from '../ui/Logo';
 import NotificationBell from '../ui/NotificationBell';
@@ -9,7 +10,9 @@ import NotificationBell from '../ui/NotificationBell';
 const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { notifications, clearNotifications } = useSocket();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -58,12 +61,62 @@ const Navbar: React.FC = () => {
           <div className="flex items-center gap-2">
             {isAuthenticated ? (
               <>
-                <NotificationBell />
+                <div className="relative">
+                  <NotificationBell onClick={() => {
+                    setShowNotifications(!showNotifications);
+                    setShowDropdown(false);
+                  }} />
+                  
+                  {showNotifications && (
+                    <div className="absolute right-0 mt-2 w-72 glass-card p-2 animate-slide-down z-50">
+                      <div className="flex items-center justify-between px-3 py-2 border-b border-surface-700/50 mb-1">
+                        <h3 className="text-sm font-semibold text-surface-100">Notifications</h3>
+                        {notifications.length > 0 && (
+                          <button 
+                            onClick={clearNotifications}
+                            className="text-xs text-primary-400 hover:text-primary-300"
+                          >
+                            Clear all
+                          </button>
+                        )}
+                      </div>
+                      <div className="max-h-80 overflow-y-auto">
+                        {notifications.length === 0 ? (
+                          <p className="text-sm text-surface-400 p-4 text-center">No new notifications</p>
+                        ) : (
+                          <div className="space-y-1">
+                            {notifications.map((notif, idx) => {
+                              let msg = 'New notification';
+                              if (notif.type === 'comment') msg = 'Someone commented on your post';
+                              if (notif.type === 'reaction') msg = 'Someone reacted to your post';
+                              if (notif.type === 'poll') msg = 'Someone voted on your poll';
+                              
+                              return (
+                                <div key={idx} className="px-3 py-2 hover:bg-surface-700/50 rounded-lg transition-colors cursor-pointer" onClick={() => {
+                                  navigate(`/#post-${notif.postId}`);
+                                  setShowNotifications(false);
+                                }}>
+                                  <p className="text-sm text-surface-200">{msg}</p>
+                                  <p className="text-xs text-surface-500 mt-1">
+                                    {notif.timestamp ? new Date(notif.timestamp).toLocaleTimeString() : 'Just now'}
+                                  </p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
 
                 {/* User Avatar Dropdown */}
                 <div className="relative">
                   <button
-                    onClick={() => setShowDropdown(!showDropdown)}
+                    onClick={() => {
+                      setShowDropdown(!showDropdown);
+                      setShowNotifications(false);
+                    }}
                     className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-surface-700/50 transition-colors"
                     id="nav-user-menu"
                   >
