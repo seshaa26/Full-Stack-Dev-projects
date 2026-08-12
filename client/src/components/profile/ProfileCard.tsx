@@ -26,7 +26,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isOwn = false, onEdit }
       {/* Profile Content */}
       <div className="px-6 pb-6">
         <div className="flex justify-between items-start mb-4">
-          <Avatar src={user.avatar} name={user.name} size="xl" className="ring-4 ring-surface-900 -mt-12 bg-surface-900" />
+          <Avatar src={user.avatar} name={user.name} size="xl" className="relative z-10 ring-4 ring-surface-900 -mt-12 bg-surface-900" />
           {isOwn && onEdit && (
             <Button variant="secondary" size="sm" onClick={onEdit} className="mt-4">
               <Edit2 size={14} />
