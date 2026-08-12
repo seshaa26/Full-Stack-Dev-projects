@@ -94,7 +94,7 @@ const CommentList: React.FC<CommentListProps> = ({ postId }) => {
                       <div className="relative">
                         <button
                           onClick={() => setMenuOpenId(menuOpenId === comment._id ? null : comment._id)}
-                          className="p-1 text-surface-500 hover:text-surface-200 opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="p-1 text-surface-500 hover:text-surface-200 transition-colors"
                         >
                           <MoreHorizontal size={14} />
                         </button>
