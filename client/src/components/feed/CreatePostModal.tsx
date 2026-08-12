@@ -231,8 +231,8 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
               </div>
             )}
             {mediaUrl ? (
-              <div className="relative rounded-xl overflow-hidden border border-surface-700/30">
-                <img src={mediaUrl} alt="Upload preview" className="w-full max-h-48 object-cover" />
+              <div className="relative rounded-xl overflow-hidden border border-surface-700/30 bg-surface-900/50 flex justify-center">
+                <img src={mediaUrl} alt="Upload preview" className="w-full max-h-64 object-contain" />
                 <button
                   onClick={() => setMediaUrl('')}
                   className="absolute top-2 right-2 p-1.5 rounded-lg bg-black/60 text-white hover:bg-black/80 transition-colors"

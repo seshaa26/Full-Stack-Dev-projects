@@ -195,11 +195,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReact }) => {
 
       {/* Media */}
       {post.mediaUrl && (
-        <div className="mb-3 rounded-xl overflow-hidden border border-surface-700/30">
+        <div className="mb-3 rounded-xl overflow-hidden border border-surface-700/30 bg-surface-900/30">
           <img
             src={post.mediaUrl}
             alt="Post attachment"
-            className="w-full max-h-96 object-cover"
+            className="w-full h-auto max-h-[600px] object-contain"
             loading="lazy"
           />
         </div>
