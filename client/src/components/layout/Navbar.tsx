@@ -11,6 +11,7 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleLogout = () => {
     logout();
@@ -36,6 +37,13 @@ const Navbar: React.FC = () => {
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-500" />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && searchQuery.trim()) {
+                    navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
+                  }
+                }}
                 placeholder="Search posts, tags, people..."
                 className="w-full pl-10 pr-4 py-2 rounded-xl bg-surface-800/60 border border-surface-700/50
                          text-sm text-surface-200 placeholder-surface-500

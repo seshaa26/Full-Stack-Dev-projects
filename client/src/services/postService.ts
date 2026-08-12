@@ -5,11 +5,13 @@ export const getPosts = async (
   page = 1,
   limit = 10,
   tag?: string,
-  type?: string
+  type?: string,
+  search?: string
 ): Promise<PostsResponse> => {
   const params: any = { page, limit };
   if (tag) params.tag = tag;
   if (type) params.type = type;
+  if (search) params.search = search;
   const response = await api.get<PostsResponse>('/posts', { params });
   return response.data;
 };

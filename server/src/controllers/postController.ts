@@ -13,10 +13,17 @@ export const getPosts = async (req: AuthRequest, res: Response): Promise<void> =
     const limit = parseInt(req.query.limit as string) || 10;
     const tag = req.query.tag as string;
     const type = req.query.type as string;
+    const search = req.query.search as string;
 
     const filter: any = {};
     if (tag) filter.tags = tag;
     if (type) filter.type = type;
+    if (search) {
+      filter.$or = [
+        { content: { $regex: search, $options: 'i' } },
+        { tags: { $regex: search, $options: 'i' } }
+      ];
+    }
 
     const skip = (page - 1) * limit;
 

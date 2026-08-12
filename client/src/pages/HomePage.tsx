@@ -21,6 +21,7 @@ const HomePage: React.FC = () => {
   const searchParams = new URLSearchParams(location.search);
   const isTrending = searchParams.get('sort') === 'trending';
   const isSaved = searchParams.get('saved') === 'true';
+  const isSearch = searchParams.get('search');
 
   const { isAuthenticated } = useAuth();
   const { socket } = useSocket();
@@ -35,12 +36,12 @@ const HomePage: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Fetch posts
-  const fetchPosts = useCallback(async (pageNum: number, tag: string | null, reset = false) => {
+  const fetchPosts = useCallback(async (pageNum: number, tag: string | null, reset = false, searchStr?: string) => {
     try {
       if (reset) setLoading(true);
       else setLoadingMore(true);
 
-      const data = await postService.getPosts(pageNum, 10, tag || undefined);
+      const data = await postService.getPosts(pageNum, 10, tag || undefined, undefined, searchStr);
 
       if (reset) {
         setPosts(data.posts);
@@ -60,8 +61,8 @@ const HomePage: React.FC = () => {
   // Initial fetch
   useEffect(() => {
     setPage(1);
-    fetchPosts(1, selectedTag, true);
-  }, [selectedTag, fetchPosts]);
+    fetchPosts(1, selectedTag, true, isSearch || undefined);
+  }, [selectedTag, isSearch, fetchPosts]);
 
   // Infinite scroll
   useEffect(() => {
@@ -71,7 +72,7 @@ const HomePage: React.FC = () => {
           if (entries[0].isIntersecting && hasMore && !loadingMore) {
             const nextPage = page + 1;
             setPage(nextPage);
-            fetchPosts(nextPage, selectedTag);
+            fetchPosts(nextPage, selectedTag, false, isSearch || undefined);
           }
         },
         { threshold: 0.5 }
@@ -244,13 +245,15 @@ const HomePage: React.FC = () => {
             {loading ? (
               renderSkeleton()
             ) : filteredPosts.length === 0 ? (
-              <div className="glass-card p-12 text-center">
-                <div className="text-4xl mb-3">🌱</div>
+              <div className="glass-card p-12 flex flex-col items-center justify-center text-center">
+                <Users size={48} className="text-surface-600 mb-4" />
                 <h3 className="text-lg font-semibold text-surface-200 mb-2">
-                  {isSaved ? 'No saved posts' : 'No posts yet'}
+                  {isSearch ? 'No results found' : isSaved ? 'No saved posts' : 'No posts yet'}
                 </h3>
                 <p className="text-sm text-surface-400 mb-4">
-                  {isSaved 
+                  {isSearch
+                    ? "Try using different keywords or tags."
+                    : isSaved 
                     ? "You haven't bookmarked any posts yet." 
                     : "Be the first to share something with the community!"}
                 </p>
