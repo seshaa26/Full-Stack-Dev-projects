@@ -5,7 +5,6 @@ import { formatDate } from '../../utils/formatDate';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
 import ReactionBar from './ReactionBar';
-import ReactionBar from './ReactionBar';
 import CommentList from '../comments/CommentList';
 import { useAuth } from '../../contexts/AuthContext';
 import api from '../../services/api';
@@ -25,6 +24,10 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReact }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const [isBookmarked, setIsBookmarked] = useState(() => {
+    return localStorage.getItem(`bookmark_${post._id}`) === 'true';
+  });
 
   const isAuthor = user?._id === post.author._id || user?._id === (post.author as any);
 
@@ -64,6 +67,22 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReact }) => {
       console.error('Failed to update post:', error);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleShare = () => {
+    const url = `${window.location.origin}/#post-${post._id}`;
+    navigator.clipboard.writeText(url);
+    alert('Post link copied to clipboard!');
+  };
+
+  const handleBookmark = () => {
+    if (isBookmarked) {
+      localStorage.removeItem(`bookmark_${post._id}`);
+      setIsBookmarked(false);
+    } else {
+      localStorage.setItem(`bookmark_${post._id}`, 'true');
+      setIsBookmarked(true);
     }
   };
 
@@ -215,14 +234,20 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReact }) => {
             <span className="text-xs">{post.commentsCount}</span>
           </button>
           <button
-            className="p-2 rounded-xl text-surface-400 hover:bg-surface-700/50 
-                     hover:text-surface-200 transition-colors"
+            onClick={handleBookmark}
+            className={`p-2 rounded-xl transition-colors ${
+              isBookmarked 
+                ? 'text-primary-400 bg-primary-500/10' 
+                : 'text-surface-400 hover:bg-surface-700/50 hover:text-surface-200'
+            }`}
+            title={isBookmarked ? "Remove Bookmark" : "Bookmark Post"}
           >
-            <Bookmark size={16} />
+            <Bookmark size={16} className={isBookmarked ? 'fill-current' : ''} />
           </button>
           <button
-            className="p-2 rounded-xl text-surface-400 hover:bg-surface-700/50 
-                     hover:text-surface-200 transition-colors"
+            onClick={handleShare}
+            className="p-2 rounded-xl text-surface-400 hover:bg-surface-700/50 hover:text-surface-200 transition-colors"
+            title="Share Post"
           >
             <Share2 size={16} />
           </button>
