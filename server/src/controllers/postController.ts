@@ -258,7 +258,7 @@ export const updatePost = async (req: AuthRequest, res: Response): Promise<void>
       return;
     }
 
-    if (post.author.toString() !== req.user?._id.toString()) {
+    if (post.author.toString() !== req.userId) {
       res.status(403).json({ message: 'Unauthorized to update this post' });
       return;
     }
@@ -293,7 +293,7 @@ export const deletePost = async (req: AuthRequest, res: Response): Promise<void>
       return;
     }
 
-    if (post.author.toString() !== req.user?._id.toString()) {
+    if (post.author.toString() !== req.userId) {
       res.status(403).json({ message: 'Unauthorized to delete this post' });
       return;
     }
