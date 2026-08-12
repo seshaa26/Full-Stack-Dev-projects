@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
                     id="nav-user-menu"
                   >
                     <Avatar src={user?.avatar} name={user?.name} size="sm" />
-                    <span className="hidden sm:block text-sm font-medium text-surface-200 max-w-[120px] truncate">
+                    <span className="hidden sm:block text-sm font-medium text-surface-200 max-w-[220px] truncate">
                       {user?.name}
                     </span>
                   </button>

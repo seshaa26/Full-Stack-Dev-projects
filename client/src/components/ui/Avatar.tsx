@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { User as UserIcon } from 'lucide-react';
 
 interface AvatarProps {
@@ -23,12 +23,15 @@ const Avatar: React.FC<AvatarProps> = ({ src, name, size = 'md', className = '' 
     xl: 32,
   };
 
-  if (src) {
+  const [imgError, setImgError] = useState(false);
+
+  if (src && !imgError) {
     return (
       <img
         src={src}
         alt={name || 'Avatar'}
-        className={`${sizeClasses[size]} rounded-full object-cover ring-2 ring-surface-600/50 ${className}`}
+        onError={() => setImgError(true)}
+        className={`${sizeClasses[size]} rounded-full object-cover bg-surface-800 ring-2 ring-surface-600/50 ${className}`}
       />
     );
   }
