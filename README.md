@@ -1,6 +1,6 @@
-# DevXGen — Developer Community Platform
+# DevXgen — Developer Community Platform
 
-> Where developers Interact, share & grow | [devxgen.in](https://devxgen.in)
+> Where Developers Interact, Share & Grow | [devxgen.vercel.app](https://devxgen.vercel.app)
 
 ---
 
@@ -11,7 +11,7 @@
 | **Frontend** | React, Vite, TypeScript, Tailwind CSS, Lucide Icons, React Router |
 | **Backend** | Node.js, Express, TypeScript, Socket.IO |
 | **Database** | MongoDB (Mongoose ODM) |
-| **Auth** | Google OAuth 2.0 + JWT |
+| **Auth** | Google OAuth 2.0 & Oracle OAuth + JWT |
 | **Media** | AWS S3 presigned URLs |
 
 ## Getting Started
@@ -90,7 +90,7 @@ npm run dev
 
 ## Features
 
-- 🔐 **Google OAuth** — Secure sign-in with one click
+- 🔐 **OAuth Integration** — Secure sign-in via Google & Oracle Cloud
 - 📝 **Rich Posts** — Text, images, code blocks, and link previews
 - 📊 **Interactive Polls** — Live voting with animated progress bars
 - 📢 **Announcements** — Visually distinct community updates
@@ -99,17 +99,17 @@ npm run dev
 - 🔔 **Real-time** — Live notifications via WebSocket
 - 🏷️ **Tag Filtering** — Filter feed by topic
 - 📱 **Responsive** — Mobile-first with bottom navigation
-- 🌙 **Dark Mode** — Premium glassmorphic dark UI
+- ☀️ **Light Mode** — Premium, vibrant light UI with custom animations
 
 ## Deployment
 
 | Service | Target |
 |---------|--------|
 | Frontend | Vercel |
-| Backend | Oracle Cloud VM |
+| Backend | Render Web Service |
 | Database | MongoDB Atlas |
 | Media | AWS S3 |
 
 ## License
 
-MIT © DevXGen
+MIT © DevXgen
