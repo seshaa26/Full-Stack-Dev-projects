@@ -127,9 +127,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReact }) => {
               {formatDate(post.createdAt)}
             </span>
           </div>
-          {post.author.email && (
-            <p className="text-xs text-surface-500 truncate">{post.author.email}</p>
-          )}
         </div>
 
         {/* Action Menu */}
