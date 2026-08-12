@@ -70,23 +70,24 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
 
     setUploadError('');
     
-    // Allow up to 10MB images for high quality
     if (file.size > 10 * 1024 * 1024) {
       setUploadError('Image size exceeds 10MB limit. Please compress it first.');
       return;
     }
 
-    try {
-      setUploading(true);
-      const { uploadUrl, fileUrl } = await getPresignedUrl(file.name, file.type);
-      await uploadFileToS3(uploadUrl, file);
-      setMediaUrl(fileUrl);
-    } catch (error) {
-      console.error('Upload failed:', error);
-      setUploadError('Upload failed. The image might be too large or your connection dropped.');
-    } finally {
+    setUploading(true);
+    
+    // Read file as base64 instead of uploading to S3, bypassing broken AWS credentials
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setMediaUrl(reader.result as string);
       setUploading(false);
-    }
+    };
+    reader.onerror = () => {
+      setUploadError('Failed to read file');
+      setUploading(false);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async () => {

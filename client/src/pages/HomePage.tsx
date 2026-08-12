@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Post, ReactionType } from '../types';
 import * as postService from '../services/postService';
 import { useSocket } from '../contexts/SocketContext';
@@ -16,6 +17,11 @@ import { TrendingUp, Hash, Users } from 'lucide-react';
 import { POPULAR_TAGS } from '../utils/constants';
 
 const HomePage: React.FC = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isTrending = searchParams.get('sort') === 'trending';
+  const isSaved = searchParams.get('saved') === 'true';
+
   const { isAuthenticated } = useAuth();
   const { socket } = useSocket();
   const [posts, setPosts] = useState<Post[]>([]);
@@ -190,6 +196,17 @@ const HomePage: React.FC = () => {
     </div>
   );
 
+  const filteredPosts = posts.filter(p => {
+    if (isSaved) {
+      return localStorage.getItem(`bookmark_${p._id}`) === 'true';
+    }
+    return true;
+  });
+
+  if (isTrending) {
+    filteredPosts.sort((a, b) => (b.commentsCount + b.reactions.length) - (a.commentsCount + a.reactions.length));
+  }
+
   return (
     <div className="min-h-screen bg-surface-950" id="home-page">
       <Navbar />
@@ -211,7 +228,7 @@ const HomePage: React.FC = () => {
             {/* Feed Header */}
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-surface-100">
-                {selectedTag ? `#${selectedTag}` : 'Your Feed'}
+                {isTrending ? 'Trending Posts' : isSaved ? 'Saved Posts' : (selectedTag ? `#${selectedTag}` : 'Your Feed')}
               </h2>
               {selectedTag && (
                 <button
@@ -226,14 +243,16 @@ const HomePage: React.FC = () => {
             {/* Post List */}
             {loading ? (
               renderSkeleton()
-            ) : posts.length === 0 ? (
+            ) : filteredPosts.length === 0 ? (
               <div className="glass-card p-12 text-center">
                 <div className="text-4xl mb-3">🌱</div>
                 <h3 className="text-lg font-semibold text-surface-200 mb-2">
-                  No posts yet
+                  {isSaved ? 'No saved posts' : 'No posts yet'}
                 </h3>
                 <p className="text-sm text-surface-400 mb-4">
-                  Be the first to share something with the community!
+                  {isSaved 
+                    ? "You haven't bookmarked any posts yet." 
+                    : "Be the first to share something with the community!"}
                 </p>
                 {isAuthenticated && (
                   <button
@@ -246,13 +265,16 @@ const HomePage: React.FC = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                {posts.map(renderPost)}
+                {filteredPosts.map(renderPost)}
+                
+                <div ref={loadMoreRef} className="py-4 flex justify-center h-20">
+                  {loadingMore && <Loader size="sm" />}
+                  {!hasMore && filteredPosts.length > 0 && (
+                    <p className="text-surface-500 text-sm">You've reached the end!</p>
+                  )}
+                </div>
               </div>
             )}
-
-            {/* Load More / Infinite Scroll Trigger */}
-            {loadingMore && <Loader className="py-6" />}
-            <div ref={loadMoreRef} className="h-4" />
           </div>
 
           {/* Right Panel (Desktop) */}
