@@ -41,45 +41,40 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', animate = true
           </linearGradient>
         </defs>
 
-        {/* Left Bracket < */}
+        {/* Infinity Loop */}
         <path 
-          d="M 38 35 L 18 60 L 38 85" 
+          d="M 60 60 
+             C 45 35, 20 35, 20 60
+             C 20 85, 45 85, 60 60
+             C 75 35, 100 35, 100 60
+             C 100 85, 75 85, 60 60 Z"
           stroke="url(#gradX1)" 
           strokeWidth="12" 
           strokeLinecap="round" 
           strokeLinejoin="round" 
         />
         
-        {/* Right Bracket > */}
+        {/* Secondary Inner Glow / Trace */}
         <path 
-          d="M 82 35 L 102 60 L 82 85" 
+          d="M 60 60 
+             C 45 35, 20 35, 20 60
+             C 20 85, 45 85, 60 60
+             C 75 35, 100 35, 100 60
+             C 100 85, 75 85, 60 60 Z"
           stroke="url(#gradX2)" 
-          strokeWidth="12" 
+          strokeWidth="6" 
           strokeLinecap="round" 
           strokeLinejoin="round" 
+          className={animate ? "animate-pulse" : ""}
         />
 
-        {/* The X (intersecting slashes) */}
-        <path 
-          d="M 72 32 L 48 88" 
-          stroke="url(#gradX1)" 
-          strokeWidth="12" 
-          strokeLinecap="round" 
-        />
-        <path 
-          d="M 48 32 L 72 88" 
-          stroke="url(#gradX2)" 
-          strokeWidth="12" 
-          strokeLinecap="round" 
-        />
-        
         {/* Center Glow Dot */}
         <circle 
           cx="60" 
           cy="60" 
-          r="6" 
+          r="5" 
           fill="#ffffff" 
-          className={animate ? "animate-pulse" : ""}
+          className={animate ? "animate-pulse-glow" : ""}
         />
       </svg>
     </div>
