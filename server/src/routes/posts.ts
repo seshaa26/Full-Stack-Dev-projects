@@ -5,6 +5,8 @@ import {
   createPoll,
   toggleReaction,
   votePoll,
+  updatePost,
+  deletePost,
 } from '../controllers/postController';
 import auth from '../middleware/auth';
 
@@ -24,5 +26,11 @@ router.post('/:id/react', auth, toggleReaction);
 
 // POST /api/posts/:id/vote — Vote on poll option (authenticated)
 router.post('/:id/vote', auth, votePoll);
+
+// PUT /api/posts/:id — Update a post (authenticated)
+router.put('/:id', auth, updatePost);
+
+// DELETE /api/posts/:id — Delete a post (authenticated)
+router.delete('/:id', auth, deletePost);
 
 export default router;

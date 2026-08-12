@@ -242,3 +242,69 @@ export const votePoll = async (req: AuthRequest, res: Response): Promise<void> =
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+/**
+ * PUT /api/posts/:id
+ * Update a post
+ */
+export const updatePost = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { content, tags } = req.body;
+
+    const post = await Post.findById(id);
+    if (!post) {
+      res.status(404).json({ message: 'Post not found' });
+      return;
+    }
+
+    if (post.author.toString() !== req.user?._id.toString()) {
+      res.status(403).json({ message: 'Unauthorized to update this post' });
+      return;
+    }
+
+    if (content) post.content = content;
+    if (tags) post.tags = tags;
+    
+    await post.save();
+
+    const updatedPost = await Post.findById(id).populate('author', 'name email avatar').lean();
+
+    const io = getIO();
+    io.to('feed').emit('post-updated', updatedPost);
+
+    res.status(200).json({ success: true, post: updatedPost });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+/**
+ * DELETE /api/posts/:id
+ * Delete a post
+ */
+export const deletePost = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+
+    if (!post) {
+      res.status(404).json({ message: 'Post not found' });
+      return;
+    }
+
+    if (post.author.toString() !== req.user?._id.toString()) {
+      res.status(403).json({ message: 'Unauthorized to delete this post' });
+      return;
+    }
+
+    await post.deleteOne();
+
+    const io = getIO();
+    io.to('feed').emit('post-deleted', { postId: id });
+
+    res.status(200).json({ success: true, message: 'Post deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};

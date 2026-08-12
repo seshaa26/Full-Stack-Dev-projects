@@ -92,3 +92,72 @@ export const createComment = async (req: AuthRequest, res: Response): Promise<vo
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+/**
+ * PUT /api/posts/:postId/comments/:commentId
+ * Update a comment
+ */
+export const updateComment = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { commentId } = req.params;
+    const { content } = req.body;
+
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      res.status(404).json({ message: 'Comment not found' });
+      return;
+    }
+
+    if (comment.author.toString() !== req.userId) {
+      res.status(403).json({ message: 'Unauthorized to update this comment' });
+      return;
+    }
+
+    if (content) {
+      comment.content = content;
+      await comment.save();
+    }
+
+    const populatedComment = await Comment.findById(commentId).populate('author', 'name email avatar').lean();
+
+    const io = getIO();
+    io.to('feed').emit('comment-updated', { postId: comment.post, comment: populatedComment });
+
+    res.status(200).json({ success: true, comment: populatedComment });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+/**
+ * DELETE /api/posts/:postId/comments/:commentId
+ * Delete a comment
+ */
+export const deleteComment = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { postId, commentId } = req.params;
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      res.status(404).json({ message: 'Comment not found' });
+      return;
+    }
+
+    if (comment.author.toString() !== req.userId) {
+      res.status(403).json({ message: 'Unauthorized to delete this comment' });
+      return;
+    }
+
+    await comment.deleteOne();
+
+    // Decrement comment count on post
+    await Post.findByIdAndUpdate(postId, { $inc: { commentsCount: -1 } });
+
+    const io = getIO();
+    io.to('feed').emit('comment-deleted', { postId, commentId });
+
+    res.status(200).json({ success: true, message: 'Comment deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};

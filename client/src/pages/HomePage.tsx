@@ -92,12 +92,18 @@ const HomePage: React.FC = () => {
       );
     };
 
+    const handlePostDeleted = ({ postId }: { postId: string }) => {
+      setPosts((prev) => prev.filter((p) => p._id !== postId));
+    };
+
     socket.on('new-post', handleNewPost);
     socket.on('post-updated', handlePostUpdated);
+    socket.on('post-deleted', handlePostDeleted);
 
     return () => {
       socket.off('new-post', handleNewPost);
       socket.off('post-updated', handlePostUpdated);
+      socket.off('post-deleted', handlePostDeleted);
     };
   }, [socket]);
 

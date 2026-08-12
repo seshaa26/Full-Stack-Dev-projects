@@ -27,6 +27,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
   const [tagInput, setTagInput] = useState('');
   const [pollOptions, setPollOptions] = useState(['', '']);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   const [mediaUrl, setMediaUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -67,6 +68,14 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setUploadError('');
+    
+    // Allow up to 10MB images for high quality
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadError('Image size exceeds 10MB limit. Please compress it first.');
+      return;
+    }
+
     try {
       setUploading(true);
       const { uploadUrl, fileUrl } = await getPresignedUrl(file.name, file.type);
@@ -74,6 +83,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
       setMediaUrl(fileUrl);
     } catch (error) {
       console.error('Upload failed:', error);
+      setUploadError('Upload failed. The image might be too large or your connection dropped.');
     } finally {
       setUploading(false);
     }
@@ -214,6 +224,11 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
         {/* Image Upload */}
         {mode !== 'poll' && (
           <div className="mb-4">
+            {uploadError && (
+              <div className="text-red-400 text-xs font-medium mb-2 bg-red-500/10 p-2 rounded-lg border border-red-500/20">
+                {uploadError}
+              </div>
+            )}
             {mediaUrl ? (
               <div className="relative rounded-xl overflow-hidden border border-surface-700/30">
                 <img src={mediaUrl} alt="Upload preview" className="w-full max-h-48 object-cover" />
@@ -228,11 +243,11 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-dashed border-surface-600/50 
-                         text-sm text-surface-400 hover:text-surface-200 hover:border-primary-500/30 transition-colors"
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl border border-dashed transition-colors
+                  ${uploading ? 'border-primary-500/50 text-primary-400 bg-primary-500/5' : 'border-surface-600/50 text-surface-400 hover:text-surface-200 hover:border-primary-500/30'}`}
               >
                 <Image size={16} />
-                {uploading ? 'Uploading...' : 'Add Image'}
+                {uploading ? 'Uploading High-Quality Image...' : 'Add Image (Up to 10MB)'}
               </button>
             )}
             <input
