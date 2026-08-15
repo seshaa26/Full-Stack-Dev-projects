@@ -71,7 +71,7 @@ const LoginPage: React.FC = () => {
       <div className="relative z-10 w-full max-w-md px-6 animate-scale-in">
         {/* Logo */}
         <div className="text-center mb-8 flex flex-col items-center">
-          <Logo size="xl" className="mb-6 relative z-10" />
+          <Logo size="lg" className="mb-6 relative z-10" />
           <h1 className="text-4xl font-extrabold gradient-text mb-2">DevXgen</h1>
           <p className="text-surface-400 text-lg">
             Where Developers Interact, Share & Grow
