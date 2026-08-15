@@ -73,14 +73,14 @@ const LoginPage: React.FC = () => {
         <div className="text-center mb-8 flex flex-col items-center">
           <Logo size="lg" className="mb-6 relative z-10" />
           <h1 className="text-4xl font-extrabold gradient-text mb-2">DevXgen</h1>
-          <p className="text-surface-400 text-lg">
+          <p className="text-surface-500 text-lg">
             Where Developers Interact, Share & Grow
           </p>
         </div>
 
         {/* Login Card */}
         <div className="glass-card p-8 mb-8">
-          <h2 className="text-lg font-bold text-surface-100 text-center mb-6">
+          <h2 className="text-lg font-bold text-surface-300 text-center mb-6">
             Join the Community
           </h2>
 
@@ -97,7 +97,7 @@ const LoginPage: React.FC = () => {
           {/* Oracle Sign-In */}
           <OracleLoginButton />
 
-          <p className="text-xs text-surface-300 font-medium text-center mt-5">
+          <p className="text-xs text-surface-400 font-medium text-center mt-5">
             By signing in, you agree to our Terms of Service and Privacy Policy
           </p>
         </div>
