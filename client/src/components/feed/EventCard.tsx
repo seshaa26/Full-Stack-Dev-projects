@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Calendar, MapPin, Link as LinkIcon, MessageCircle, Bookmark, ExternalLink } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Calendar, MapPin, Link as LinkIcon, MessageCircle, Bookmark, ExternalLink, MoreHorizontal, Edit2, Trash2, X, Check } from 'lucide-react';
 import { Post, ReactionType } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import Avatar from '../ui/Avatar';
@@ -7,6 +7,7 @@ import ReactionBar from './ReactionBar';
 import CommentList from '../comments/CommentList';
 import api from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
+import Button from '../ui/Button';
 
 interface EventCardProps {
   post: Post;
@@ -20,6 +21,29 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
     return post.bookmarks?.includes(user?._id || '') || false;
   });
 
+  const [showMenu, setShowMenu] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const [editContent, setEditContent] = useState(post.content);
+  const [editTitle, setEditTitle] = useState(post.title || '');
+  const [editDate, setEditDate] = useState(post.eventDate ? new Date(post.eventDate).toISOString().slice(0, 16) : '');
+  const [editLink, setEditLink] = useState(post.eventLink || '');
+
+  const isAuthor = user?._id === post.author._id || user?._id === (post.author as any);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleBookmark = async () => {
     if (!user) return;
     try {
@@ -28,6 +52,38 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
     } catch (error) {
       console.error('Failed to bookmark event:', error);
       setIsBookmarked(isBookmarked);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this event?')) return;
+    setIsDeleting(true);
+    try {
+      await api.delete(`/posts/${post._id}`);
+    } catch (error) {
+      console.error('Failed to delete event:', error);
+      setIsDeleting(false);
+    }
+  };
+
+  const handleUpdate = async () => {
+    if (!editContent.trim()) {
+      setIsEditing(false);
+      return;
+    }
+    setIsSaving(true);
+    try {
+      await api.put(`/posts/${post._id}`, { 
+        content: editContent,
+        title: editTitle,
+        eventDate: editDate ? new Date(editDate).toISOString() : undefined,
+        eventLink: editLink
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Failed to update event:', error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -43,8 +99,8 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
         <div className="p-2.5 rounded-xl bg-pink-500/15">
           <Calendar size={22} className="text-pink-400" />
         </div>
-        <div className="flex-1">
-          <h2 className="font-bold text-lg text-surface-50 mb-1 leading-tight">
+        <div className="flex-1 min-w-0">
+          <h2 className="font-bold text-lg text-surface-50 mb-1 leading-tight truncate">
             {post.title || 'Untitled Event'}
           </h2>
           <div className="flex items-center gap-2 flex-wrap text-xs text-surface-400">
@@ -57,60 +113,144 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
             <span>{formatDate(post.createdAt)}</span>
           </div>
         </div>
-        <Avatar src={post.author.avatar} name={post.author.name} size="md" />
-      </div>
 
-      {/* Event Details Box */}
-      <div className="mb-4 bg-surface-900/50 rounded-xl p-4 border border-surface-700/50 space-y-3">
-        {post.eventDate && (
-          <div className="flex items-start gap-3">
-            <Calendar size={18} className="text-surface-400 mt-0.5 shrink-0" />
-            <div>
-              <span className="block text-xs font-semibold text-surface-500 uppercase tracking-wider mb-0.5">Date & Time</span>
-              <span className="text-sm font-medium text-surface-200">
-                {new Date(post.eventDate).toLocaleString(undefined, {
-                  weekday: 'short',
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </span>
-            </div>
-          </div>
-        )}
-        
-        {post.eventLink && (
-          <div className="flex items-start gap-3">
-            {isLink ? (
-              <LinkIcon size={18} className="text-surface-400 mt-0.5 shrink-0" />
-            ) : (
-              <MapPin size={18} className="text-surface-400 mt-0.5 shrink-0" />
+        {/* Action Menu */}
+        {isAuthor && (
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={() => setShowMenu(!showMenu)}
+              className="p-1.5 rounded-lg text-surface-400 hover:bg-surface-700/50 hover:text-surface-200 transition-colors"
+              disabled={isDeleting}
+            >
+              <MoreHorizontal size={18} />
+            </button>
+            
+            {showMenu && (
+              <div className="absolute right-0 mt-1 w-36 py-1 bg-surface-800 rounded-xl shadow-xl border border-surface-700/50 z-10 animate-fade-in">
+                <button
+                  onClick={() => {
+                    setIsEditing(true);
+                    setShowMenu(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-surface-200 hover:bg-surface-700/50 hover:text-primary-400 flex items-center gap-2"
+                >
+                  <Edit2 size={14} /> Edit
+                </button>
+                <button
+                  onClick={() => {
+                    handleDelete();
+                    setShowMenu(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 flex items-center gap-2"
+                >
+                  <Trash2 size={14} /> Delete
+                </button>
+              </div>
             )}
-            <div className="flex-1 min-w-0">
-              <span className="block text-xs font-semibold text-surface-500 uppercase tracking-wider mb-0.5">
-                {isLink ? 'Link' : 'Location'}
-              </span>
-              {isLink ? (
-                <a href={post.eventLink} target="_blank" rel="noopener noreferrer" 
-                   className="text-sm font-medium text-primary-400 hover:text-primary-300 flex items-center gap-1 truncate">
-                  {post.eventLink} <ExternalLink size={12} />
-                </a>
-              ) : (
-                <span className="text-sm font-medium text-surface-200 block truncate">
-                  {post.eventLink}
-                </span>
-              )}
-            </div>
           </div>
         )}
       </div>
 
-      {/* Description */}
-      <div className="text-surface-300 text-sm leading-relaxed mb-4 whitespace-pre-wrap">
-        {post.content}
-      </div>
+      {isEditing ? (
+        <div className="mb-4 space-y-3 bg-surface-900/50 p-4 rounded-xl border border-surface-700/50">
+          <input
+            type="text"
+            value={editTitle}
+            onChange={(e) => setEditTitle(e.target.value)}
+            placeholder="Event Title"
+            className="input-field text-lg font-semibold"
+          />
+          <div className="flex gap-3">
+            <input
+              type="datetime-local"
+              value={editDate}
+              onChange={(e) => setEditDate(e.target.value)}
+              className="input-field flex-1"
+            />
+            <input
+              type="url"
+              value={editLink}
+              onChange={(e) => setEditLink(e.target.value)}
+              placeholder="Event Link / Location"
+              className="input-field flex-1"
+            />
+          </div>
+          <textarea
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            className="textarea-field min-h-[100px]"
+          />
+          <div className="flex justify-end gap-2 pt-2">
+            <Button variant="secondary" size="sm" onClick={() => setIsEditing(false)}>
+              <X size={14} className="mr-1" /> Cancel
+            </Button>
+            <Button variant="primary" size="sm" onClick={handleUpdate} loading={isSaving}>
+              <Check size={14} className="mr-1" /> Save
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Event Details Box */}
+          <div className="mb-4 bg-surface-900/50 rounded-xl p-4 border border-surface-700/50 space-y-3">
+            {post.eventDate && (
+              <div className="flex items-start gap-3">
+                <Calendar size={18} className="text-surface-400 mt-0.5 shrink-0" />
+                <div>
+                  <span className="block text-xs font-semibold text-surface-500 uppercase tracking-wider mb-0.5">Date & Time</span>
+                  <span className="text-sm font-medium text-surface-200">
+                    {new Date(post.eventDate).toLocaleString(undefined, {
+                      weekday: 'short',
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </span>
+                </div>
+              </div>
+            )}
+            
+            {post.eventLink && (
+              <div className="flex items-start gap-3">
+                {isLink ? (
+                  <LinkIcon size={18} className="text-surface-400 mt-0.5 shrink-0" />
+                ) : (
+                  <MapPin size={18} className="text-surface-400 mt-0.5 shrink-0" />
+                )}
+                <div className="flex-1 min-w-0">
+                  <span className="block text-xs font-semibold text-surface-500 uppercase tracking-wider mb-0.5">
+                    {isLink ? 'Link' : 'Location'}
+                  </span>
+                  {isLink ? (
+                    <a href={post.eventLink} target="_blank" rel="noopener noreferrer" 
+                       className="text-sm font-medium text-primary-400 hover:text-primary-300 flex items-center gap-1 truncate">
+                      {post.eventLink} <ExternalLink size={12} />
+                    </a>
+                  ) : (
+                    <span className="text-sm font-medium text-surface-200 block truncate">
+                      {post.eventLink}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Description */}
+          <div className="text-surface-300 text-sm leading-relaxed mb-4 whitespace-pre-wrap">
+            {post.content}
+          </div>
+
+          {/* Media/Photo */}
+          {post.mediaUrl && (
+            <div className="mb-4 rounded-xl overflow-hidden border border-surface-700/50 bg-surface-900/50">
+              <img src={post.mediaUrl} alt="Event" className="w-full max-h-96 object-cover" loading="lazy" />
+            </div>
+          )}
+        </>
+      )}
 
       {/* Tags */}
       {post.tags.length > 0 && (
