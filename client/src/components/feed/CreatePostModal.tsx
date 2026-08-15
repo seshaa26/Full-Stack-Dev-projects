@@ -3,7 +3,6 @@ import { X, Plus, Trash2, Image, Hash, BarChart3, Megaphone, MessageSquare } fro
 import { useAuth } from '../../contexts/AuthContext';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
-import { getPresignedUrl, uploadFileToS3 } from '../../services/uploadService';
 
 type PostMode = 'discussion' | 'poll' | 'announcement';
 
