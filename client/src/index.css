@@ -66,8 +66,8 @@
   }
 
   @keyframes minorRipple {
-    0% { transform: scale(0.8); opacity: 0.4; border-width: 2px; }
-    100% { transform: scale(2.5); opacity: 0; border-width: 0px; }
+    0% { transform: scale(0.8); opacity: 0.15; border-width: 2px; }
+    100% { transform: scale(25); opacity: 0; border-width: 0px; }
   }
 
   /* Custom scrollbar */
