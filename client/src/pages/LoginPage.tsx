@@ -26,6 +26,14 @@ const LoginPage: React.FC = () => {
         <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
       </div>
 
+      {/* Ripple Animation centered on the entire page */}
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0">
+        <div className="absolute w-12 h-12 rounded-full border border-primary-400 opacity-0 animate-minor-ripple" />
+        <div className="absolute w-12 h-12 rounded-full border border-primary-500 opacity-0 animate-[minorRipple_4s_ease-out_infinite_1s]" />
+        <div className="absolute w-12 h-12 rounded-full border border-primary-400 opacity-0 animate-[minorRipple_4s_ease-out_infinite_2s]" />
+        <div className="absolute w-12 h-12 rounded-full border border-primary-500 opacity-0 animate-[minorRipple_4s_ease-out_infinite_3s]" />
+      </div>
+
       {/* Floating Code Decorations */}
       <div className="absolute top-16 left-12 glass-card p-3 rounded-xl animate-float opacity-90 hidden lg:block">
         <code className="text-xs font-mono text-emerald-600 font-bold">
@@ -62,11 +70,7 @@ const LoginPage: React.FC = () => {
       {/* Main Content */}
       <div className="relative z-10 w-full max-w-md px-6 animate-scale-in">
         {/* Logo */}
-        <div className="text-center mb-8 flex flex-col items-center relative">
-          {/* Subtle Ripple Animation */}
-          <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full border border-primary-500 opacity-0 animate-minor-ripple" />
-          <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full border border-primary-400 opacity-0 animate-[minorRipple_4s_ease-out_infinite_2s]" />
-
+        <div className="text-center mb-8 flex flex-col items-center">
           <Logo size="xl" className="mb-6 relative z-10" />
           <h1 className="text-4xl font-extrabold gradient-text mb-2">DevXgen</h1>
           <p className="text-surface-400 text-lg">
