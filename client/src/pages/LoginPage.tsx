@@ -62,8 +62,12 @@ const LoginPage: React.FC = () => {
       {/* Main Content */}
       <div className="relative z-10 w-full max-w-md px-6 animate-scale-in">
         {/* Logo */}
-        <div className="text-center mb-8 flex flex-col items-center">
-          <Logo size="xl" className="mb-6" />
+        <div className="text-center mb-8 flex flex-col items-center relative">
+          {/* Subtle Ripple Animation */}
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full border border-primary-500 opacity-0 animate-minor-ripple" />
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full border border-primary-400 opacity-0 animate-[minorRipple_4s_ease-out_infinite_2s]" />
+
+          <Logo size="xl" className="mb-6 relative z-10" />
           <h1 className="text-4xl font-extrabold gradient-text mb-2">DevXgen</h1>
           <p className="text-surface-400 text-lg">
             Where Developers Interact, Share & Grow
