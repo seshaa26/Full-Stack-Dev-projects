@@ -20,7 +20,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', animate = true
     <div className={`relative flex items-center justify-center ${dimensions} ${className}`}>
       {/* Background Pulse Glow */}
       {animate && (
-        <div className="absolute inset-0 bg-primary-500 rounded-full blur-xl opacity-20 animate-pulse-glow"></div>
+        <div className="absolute inset-0 bg-primary-500 rounded-full blur-xl opacity-10 animate-pulse-glow"></div>
       )}
       
       {/* SVG Icon */}
@@ -28,7 +28,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', animate = true
         viewBox="0 0 120 120"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="relative z-10 w-full h-full drop-shadow-md"
+        className="relative z-10 w-full h-full drop-shadow-sm opacity-90"
       >
         <defs>
           <linearGradient id="gradX1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -73,7 +73,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', animate = true
           cx="60" 
           cy="60" 
           r="5" 
-          fill="#ffffff" 
+          fill="#cbd5e1" 
           className={animate ? "animate-pulse-glow" : ""}
         />
       </svg>
