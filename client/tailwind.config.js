@@ -60,7 +60,7 @@ export default {
         'shimmer': 'shimmer 2s linear infinite',
         'bounce-in': 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
         'spin-slow': 'spin 3s linear infinite',
-        'minor-ripple': 'minorRipple 4s ease-out infinite',
+        'minor-ripple': 'minorRipple 8s ease-out infinite',
       },
       keyframes: {
         fadeIn: {

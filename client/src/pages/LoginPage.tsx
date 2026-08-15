@@ -29,9 +29,9 @@ const LoginPage: React.FC = () => {
       {/* Ripple Animation centered on the entire page */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0">
         <div className="absolute w-12 h-12 rounded-full border border-primary-400 opacity-0 animate-minor-ripple" />
-        <div className="absolute w-12 h-12 rounded-full border border-primary-500 opacity-0 animate-[minorRipple_4s_ease-out_infinite_1s]" />
-        <div className="absolute w-12 h-12 rounded-full border border-primary-400 opacity-0 animate-[minorRipple_4s_ease-out_infinite_2s]" />
-        <div className="absolute w-12 h-12 rounded-full border border-primary-500 opacity-0 animate-[minorRipple_4s_ease-out_infinite_3s]" />
+        <div className="absolute w-12 h-12 rounded-full border border-primary-500 opacity-0 animate-[minorRipple_8s_ease-out_infinite_2s]" />
+        <div className="absolute w-12 h-12 rounded-full border border-primary-400 opacity-0 animate-[minorRipple_8s_ease-out_infinite_4s]" />
+        <div className="absolute w-12 h-12 rounded-full border border-primary-500 opacity-0 animate-[minorRipple_8s_ease-out_infinite_6s]" />
       </div>
 
       {/* Floating Code Decorations */}
