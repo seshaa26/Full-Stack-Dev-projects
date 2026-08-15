@@ -23,6 +23,7 @@ const HomePage: React.FC = () => {
   const searchParams = new URLSearchParams(location.search);
   const isTrending = searchParams.get('sort') === 'trending';
   const isSaved = searchParams.get('saved') === 'true';
+  const searchType = searchParams.get('type');
   const isSearch = searchParams.get('search');
 
   const { isAuthenticated, user } = useAuth();
@@ -38,14 +39,14 @@ const HomePage: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Fetch posts
-  const fetchPosts = useCallback(async (pageNum: number, tag: string | null, reset = false, searchStr?: string, savedFilter = false) => {
+  const fetchPosts = useCallback(async (pageNum: number, tag: string | null, reset = false, searchStr?: string, savedFilter = false, typeFilter?: string, sortFilter?: string) => {
     try {
       if (reset) setLoading(true);
       else setLoadingMore(true);
 
       const data = savedFilter
         ? await postService.getSavedPosts(pageNum, 10)
-        : await postService.getPosts(pageNum, 10, tag || undefined, undefined, searchStr);
+        : await postService.getPosts(pageNum, 10, tag || undefined, typeFilter, searchStr, sortFilter);
 
       if (reset) {
         setPosts(data.posts);
@@ -65,8 +66,8 @@ const HomePage: React.FC = () => {
   // Initial fetch
   useEffect(() => {
     setPage(1);
-    fetchPosts(1, selectedTag, true, isSearch || undefined, isSaved);
-  }, [selectedTag, isSearch, isSaved, fetchPosts]);
+    fetchPosts(1, selectedTag, true, isSearch || undefined, isSaved, searchType || undefined, isTrending ? 'trending' : undefined);
+  }, [selectedTag, isSearch, isSaved, searchType, isTrending, fetchPosts]);
 
   // Infinite scroll
   useEffect(() => {
@@ -76,7 +77,7 @@ const HomePage: React.FC = () => {
           if (entries[0].isIntersecting && hasMore && !loadingMore) {
             const nextPage = page + 1;
             setPage(nextPage);
-            fetchPosts(nextPage, selectedTag, false, isSearch || undefined, isSaved);
+            fetchPosts(nextPage, selectedTag, false, isSearch || undefined, isSaved, searchType || undefined, isTrending ? 'trending' : undefined);
           }
         },
         { threshold: 0.5 }
@@ -87,7 +88,7 @@ const HomePage: React.FC = () => {
     return () => {
       if (observerRef.current) observerRef.current.disconnect();
     };
-  }, [hasMore, loadingMore, page, selectedTag, isSaved, fetchPosts]);
+  }, [hasMore, loadingMore, page, selectedTag, isSaved, searchType, isTrending, fetchPosts]);
 
   // Real-time updates via Socket.IO
   useEffect(() => {

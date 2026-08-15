@@ -14,6 +14,7 @@ export const getPosts = async (req: AuthRequest, res: Response): Promise<void> =
     const tag = req.query.tag as string;
     const type = req.query.type as string;
     const search = req.query.search as string;
+    const sort = req.query.sort as string;
 
     const filter: any = {};
     if (tag) filter.tags = tag;
@@ -27,11 +28,16 @@ export const getPosts = async (req: AuthRequest, res: Response): Promise<void> =
 
     const skip = (page - 1) * limit;
 
+    let sortOption: any = { createdAt: -1 };
+    if (sort === 'trending') {
+      sortOption = { commentsCount: -1, createdAt: -1 };
+    }
+
     const [posts, total] = await Promise.all([
       Post.find(filter)
         .populate('author', 'name email avatar')
         .populate('reactions.user', 'name avatar')
-        .sort({ createdAt: -1 })
+        .sort(sortOption)
         .skip(skip)
         .limit(limit)
         .lean(),
