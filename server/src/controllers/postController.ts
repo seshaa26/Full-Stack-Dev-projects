@@ -97,21 +97,24 @@ export const getSavedPosts = async (req: AuthRequest, res: Response): Promise<vo
  */
 export const createPost = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { content, type, mediaUrl, tags } = req.body;
+    const { content, type, title, mediaUrl, tags, eventDate, eventLink } = req.body;
 
     if (!content) {
       res.status(400).json({ message: 'Post content is required' });
       return;
     }
 
-    const postType = type === 'announcement' ? 'announcement' : 'discussion';
+    const postType = ['announcement', 'article', 'event'].includes(type) ? type : 'discussion';
 
     const post = await Post.create({
       author: req.userId,
       type: postType,
+      title,
       content,
       mediaUrl: mediaUrl || '',
       tags: tags || [],
+      eventDate,
+      eventLink,
     });
 
     const populatedPost = await Post.findById(post._id)

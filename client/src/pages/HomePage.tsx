@@ -10,6 +10,8 @@ import MobileNav from '../components/layout/MobileNav';
 import PostCard from '../components/feed/PostCard';
 import PollCard from '../components/feed/PollCard';
 import AnnouncementCard from '../components/feed/AnnouncementCard';
+import ArticleCard from '../components/feed/ArticleCard';
+import EventCard from '../components/feed/EventCard';
 import CreatePostModal from '../components/feed/CreatePostModal';
 import TagFilter from '../components/feed/TagFilter';
 import Loader from '../components/ui/Loader';
@@ -153,8 +155,11 @@ const HomePage: React.FC = () => {
         await postService.createPost({
           content: data.content,
           type: data.type,
+          title: data.title,
           mediaUrl: data.mediaUrl,
           tags: data.tags,
+          eventDate: data.eventDate,
+          eventLink: data.eventLink,
         });
       }
       // Post will appear via Socket.IO event
@@ -169,6 +174,10 @@ const HomePage: React.FC = () => {
         return <PollCard key={post._id} post={post} onVote={handleVote} onReact={handleReaction} />;
       case 'announcement':
         return <AnnouncementCard key={post._id} post={post} onReact={handleReaction} />;
+      case 'article':
+        return <ArticleCard key={post._id} post={post} onReact={handleReaction} />;
+      case 'event':
+        return <EventCard key={post._id} post={post} onReact={handleReaction} />;
       default:
         return <PostCard key={post._id} post={post} onReact={handleReaction} />;
     }

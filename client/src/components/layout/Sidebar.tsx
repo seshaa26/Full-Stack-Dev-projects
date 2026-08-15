@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, TrendingUp, Bookmark, Plus } from 'lucide-react';
+import { Home, TrendingUp, Bookmark, Plus, BookOpen, Calendar } from 'lucide-react';
 import { POPULAR_TAGS } from '../../utils/constants';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -18,6 +18,8 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedTag, onTagSelect, onCreatePos
     { icon: Home, label: 'Home Feed', path: '/' },
     { icon: TrendingUp, label: 'Trending', path: '/?sort=trending' },
     { icon: Bookmark, label: 'Saved', path: '/?saved=true' },
+    { icon: BookOpen, label: 'Articles', path: '/?type=article' },
+    { icon: Calendar, label: 'Events', path: '/?type=event' },
   ];
 
   return (

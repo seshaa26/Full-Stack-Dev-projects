@@ -27,8 +27,11 @@ export const getSavedPosts = async (
 export const createPost = async (data: {
   content: string;
   type?: string;
+  title?: string;
   mediaUrl?: string;
   tags?: string[];
+  eventDate?: string;
+  eventLink?: string;
 }): Promise<{ success: boolean; post: Post }> => {
   const response = await api.post('/posts', data);
   return response.data;

@@ -13,13 +13,17 @@ export interface IReaction {
 
 export interface IPost extends Document {
   author: Types.ObjectId;
-  type: 'discussion' | 'poll' | 'announcement';
+  type: 'discussion' | 'poll' | 'announcement' | 'article' | 'event';
+  title?: string;
   content: string;
   mediaUrl?: string;
   tags: string[];
   pollOptions: IPollOption[];
   reactions: IReaction[];
   bookmarks: Types.ObjectId[];
+  eventDate?: Date;
+  eventLink?: string;
+  attendees?: Types.ObjectId[];
   commentsCount: number;
   createdAt: Date;
 }
@@ -67,15 +71,19 @@ const postSchema = new Schema<IPost>(
     },
     type: {
       type: String,
-      enum: ['discussion', 'poll', 'announcement'],
+      enum: ['discussion', 'poll', 'announcement', 'article', 'event'],
       required: true,
       default: 'discussion',
+    },
+    title: {
+      type: String,
+      trim: true,
     },
     content: {
       type: String,
       required: true,
       trim: true,
-      maxlength: 5000,
+      maxlength: 15000, // increased for articles
     },
     mediaUrl: {
       type: String,
@@ -95,6 +103,18 @@ const postSchema = new Schema<IPost>(
       default: [],
     },
     bookmarks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    eventDate: {
+      type: Date,
+    },
+    eventLink: {
+      type: String,
+    },
+    attendees: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User',

@@ -31,13 +31,17 @@ export interface PollOption {
 export interface Post {
   _id: string;
   author: User;
-  type: PostType;
+  type: 'discussion' | 'poll' | 'announcement' | 'article' | 'event';
+  title?: string;
   content: string;
   mediaUrl?: string;
   tags: string[];
   pollOptions: PollOption[];
   reactions: Reaction[];
   bookmarks: string[];
+  eventDate?: string;
+  eventLink?: string;
+  attendees?: string[];
   commentsCount: number;
   createdAt: string;
 }

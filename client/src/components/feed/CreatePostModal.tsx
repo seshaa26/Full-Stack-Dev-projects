@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { X, Plus, Trash2, Image, Hash, BarChart3, Megaphone, MessageSquare } from 'lucide-react';
+import { X, Plus, Trash2, Image, Hash, BarChart3, Megaphone, MessageSquare, BookOpen, Calendar } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 
-type PostMode = 'discussion' | 'poll' | 'announcement';
+type PostMode = 'discussion' | 'poll' | 'announcement' | 'article' | 'event';
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -12,9 +12,12 @@ interface CreatePostModalProps {
   onSubmit: (data: {
     content: string;
     type: string;
+    title?: string;
     mediaUrl?: string;
     tags: string[];
     options?: string[];
+    eventDate?: string;
+    eventLink?: string;
   }) => void;
 }
 
@@ -22,6 +25,9 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
   const { user } = useAuth();
   const [mode, setMode] = useState<PostMode>('discussion');
   const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [eventLink, setEventLink] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
   const [pollOptions, setPollOptions] = useState(['', '']);
@@ -94,21 +100,22 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
 
     setLoading(true);
     try {
-      const data: any = {
-        content: content.trim(),
+      await onSubmit({
+        content,
         type: mode,
+        title: mode === 'article' || mode === 'event' ? title : undefined,
+        mediaUrl,
         tags,
-        mediaUrl: mediaUrl || undefined,
-      };
-
-      if (mode === 'poll') {
-        data.options = pollOptions.filter((o) => o.trim());
-      }
-
-      await onSubmit(data);
+        options: mode === 'poll' ? pollOptions.filter((opt) => opt.trim() !== '') : undefined,
+        eventDate: mode === 'event' ? eventDate : undefined,
+        eventLink: mode === 'event' ? eventLink : undefined,
+      });
 
       // Reset form
       setContent('');
+      setTitle('');
+      setEventDate('');
+      setEventLink('');
       setTags([]);
       setTagInput('');
       setPollOptions(['', '']);
@@ -126,6 +133,8 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
     { key: 'discussion' as PostMode, icon: MessageSquare, label: 'Discussion' },
     { key: 'poll' as PostMode, icon: BarChart3, label: 'Poll' },
     { key: 'announcement' as PostMode, icon: Megaphone, label: 'Announce' },
+    { key: 'article' as PostMode, icon: BookOpen, label: 'Article' },
+    { key: 'event' as PostMode, icon: Calendar, label: 'Event' },
   ];
 
   return (
@@ -171,6 +180,36 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
           </div>
         </div>
 
+        {/* Article/Event Title Input */}
+        {(mode === 'article' || mode === 'event') && (
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder={mode === 'article' ? "Article Title..." : "Event Title..."}
+            className="input-field mb-4 text-lg font-semibold"
+          />
+        )}
+
+        {/* Event Details Inputs */}
+        {mode === 'event' && (
+          <div className="flex gap-3 mb-4">
+            <input
+              type="datetime-local"
+              value={eventDate}
+              onChange={(e) => setEventDate(e.target.value)}
+              className="input-field flex-1"
+            />
+            <input
+              type="url"
+              value={eventLink}
+              onChange={(e) => setEventLink(e.target.value)}
+              placeholder="Event Link / Location"
+              className="input-field flex-1"
+            />
+          </div>
+        )}
+
         {/* Content Input */}
         <textarea
           value={content}
@@ -180,9 +219,13 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onSu
               ? 'Ask your poll question...'
               : mode === 'announcement'
                 ? 'Write your announcement...'
-                : 'Share something with the community...'
+                : mode === 'article'
+                  ? 'Write your article body...'
+                  : mode === 'event'
+                    ? 'Provide event details and agenda...'
+                    : 'Share something with the community...'
           }
-          className="textarea-field min-h-[120px] mb-4"
+          className={`textarea-field min-h-[120px] mb-4 ${mode === 'article' ? 'min-h-[250px]' : ''}`}
           id="create-post-content"
         />
 
