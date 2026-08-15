@@ -19,6 +19,7 @@ export interface IPost extends Document {
   tags: string[];
   pollOptions: IPollOption[];
   reactions: IReaction[];
+  bookmarks: Types.ObjectId[];
   commentsCount: number;
   createdAt: Date;
 }
@@ -93,6 +94,12 @@ const postSchema = new Schema<IPost>(
       type: [reactionSchema],
       default: [],
     },
+    bookmarks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     commentsCount: {
       type: Number,
       default: 0,

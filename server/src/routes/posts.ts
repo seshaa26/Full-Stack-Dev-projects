@@ -7,6 +7,8 @@ import {
   votePoll,
   updatePost,
   deletePost,
+  getSavedPosts,
+  toggleBookmark,
 } from '../controllers/postController';
 import auth from '../middleware/auth';
 
@@ -20,6 +22,12 @@ router.post('/', auth, createPost);
 
 // POST /api/posts/poll — Create interactive poll (authenticated)
 router.post('/poll', auth, createPoll);
+
+// GET /api/posts/saved — Get saved posts (authenticated)
+router.get('/saved', auth, getSavedPosts);
+
+// POST /api/posts/:id/bookmark — Toggle bookmark (authenticated)
+router.post('/:id/bookmark', auth, toggleBookmark);
 
 // POST /api/posts/:id/react — Toggle reaction (authenticated)
 router.post('/:id/react', auth, toggleReaction);

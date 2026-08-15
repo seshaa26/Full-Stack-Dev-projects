@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Megaphone, MessageCircle } from 'lucide-react';
+import { Megaphone, MessageCircle, Bookmark } from 'lucide-react';
 import { Post, ReactionType } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import Avatar from '../ui/Avatar';
 import ReactionBar from './ReactionBar';
 import CommentList from '../comments/CommentList';
+import api from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface AnnouncementCardProps {
   post: Post;
@@ -12,7 +14,22 @@ interface AnnouncementCardProps {
 }
 
 const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ post, onReact }) => {
+  const { user } = useAuth();
   const [showComments, setShowComments] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(() => {
+    return post.bookmarks?.includes(user?._id || '') || false;
+  });
+
+  const handleBookmark = async () => {
+    if (!user) return;
+    try {
+      setIsBookmarked(!isBookmarked);
+      await api.post(`/posts/${post._id}/bookmark`);
+    } catch (error) {
+      console.error('Failed to bookmark post:', error);
+      setIsBookmarked(isBookmarked);
+    }
+  };
 
   return (
     <article
@@ -69,14 +86,27 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ post, onReact }) =>
       {/* Actions */}
       <div className="flex items-center justify-between">
         <ReactionBar post={post} onReact={onReact} />
-        <button
-          onClick={() => setShowComments(!showComments)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm text-surface-400 
-                   hover:bg-surface-700/50 hover:text-surface-200 transition-colors"
-        >
-          <MessageCircle size={16} />
-          <span className="text-xs">{post.commentsCount}</span>
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setShowComments(!showComments)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm text-surface-400 
+                     hover:bg-surface-700/50 hover:text-surface-200 transition-colors"
+          >
+            <MessageCircle size={16} />
+            <span className="text-xs">{post.commentsCount}</span>
+          </button>
+          
+          <button
+            onClick={handleBookmark}
+            className={`p-2 rounded-xl transition-all duration-200 ${
+              isBookmarked 
+                ? 'text-primary-400 bg-primary-500/10' 
+                : 'text-surface-400 hover:text-surface-200 hover:bg-surface-700/50'
+            }`}
+          >
+            <Bookmark size={18} fill={isBookmarked ? 'currentColor' : 'none'} />
+          </button>
+        </div>
       </div>
 
       {showComments && (

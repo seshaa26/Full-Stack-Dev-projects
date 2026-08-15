@@ -54,6 +54,44 @@ export const getPosts = async (req: AuthRequest, res: Response): Promise<void> =
 };
 
 /**
+ * GET /api/posts/saved
+ * Get authenticated user's bookmarked posts.
+ */
+export const getSavedPosts = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
+
+    const filter = { bookmarks: req.userId };
+
+    const [posts, total] = await Promise.all([
+      Post.find(filter)
+        .populate('author', 'name email avatar')
+        .populate('reactions.user', 'name avatar')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Post.countDocuments(filter),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      posts,
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+/**
  * POST /api/posts
  * Create a discussion or announcement post.
  */
@@ -313,5 +351,42 @@ export const deletePost = async (req: AuthRequest, res: Response): Promise<void>
     res.status(200).json({ success: true, message: 'Post deleted successfully' });
   } catch (error: any) {
     res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+/**
+ * POST /api/posts/:id/bookmark
+ * Toggle bookmark status for a post.
+ */
+export const toggleBookmark = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    const post = await Post.findById(id);
+    if (!post) {
+      res.status(404).json({ message: 'Post not found' });
+      return;
+    }
+
+    const bookmarkIndex = post.bookmarks.findIndex((id) => id.toString() === userId);
+
+    if (bookmarkIndex > -1) {
+      // Remove bookmark
+      post.bookmarks.splice(bookmarkIndex, 1);
+    } else {
+      // Add bookmark
+      post.bookmarks.push(userId as any);
+    }
+
+    await post.save();
+
+    // Populate before returning
+    await post.populate('author', 'name email avatar');
+    await post.populate('reactions.user', 'name avatar');
+
+    res.status(200).json({ success: true, post });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Failed to toggle bookmark', error: error.message });
   }
 };

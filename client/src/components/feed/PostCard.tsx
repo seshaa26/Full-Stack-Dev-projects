@@ -26,7 +26,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReact }) => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const [isBookmarked, setIsBookmarked] = useState(() => {
-    return localStorage.getItem(`bookmark_${post._id}`) === 'true';
+    return post.bookmarks?.includes(user?._id || '') || false;
   });
 
   const isAuthor = user?._id === post.author._id || user?._id === (post.author as any);
@@ -76,13 +76,14 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReact }) => {
     alert('Post link copied to clipboard!');
   };
 
-  const handleBookmark = () => {
-    if (isBookmarked) {
-      localStorage.removeItem(`bookmark_${post._id}`);
-      setIsBookmarked(false);
-    } else {
-      localStorage.setItem(`bookmark_${post._id}`, 'true');
-      setIsBookmarked(true);
+  const handleBookmark = async () => {
+    if (!user) return;
+    try {
+      setIsBookmarked(!isBookmarked);
+      await api.post(`/posts/${post._id}/bookmark`);
+    } catch (error) {
+      console.error('Failed to bookmark post:', error);
+      setIsBookmarked(isBookmarked); // Revert on failure
     }
   };
 

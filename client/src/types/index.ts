@@ -37,6 +37,7 @@ export interface Post {
   tags: string[];
   pollOptions: PollOption[];
   reactions: Reaction[];
+  bookmarks: string[];
   commentsCount: number;
   createdAt: string;
 }

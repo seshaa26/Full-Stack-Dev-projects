@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
   const isSaved = searchParams.get('saved') === 'true';
   const isSearch = searchParams.get('search');
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { socket } = useSocket();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,12 +36,14 @@ const HomePage: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Fetch posts
-  const fetchPosts = useCallback(async (pageNum: number, tag: string | null, reset = false, searchStr?: string) => {
+  const fetchPosts = useCallback(async (pageNum: number, tag: string | null, reset = false, searchStr?: string, savedFilter = false) => {
     try {
       if (reset) setLoading(true);
       else setLoadingMore(true);
 
-      const data = await postService.getPosts(pageNum, 10, tag || undefined, undefined, searchStr);
+      const data = savedFilter
+        ? await postService.getSavedPosts(pageNum, 10)
+        : await postService.getPosts(pageNum, 10, tag || undefined, undefined, searchStr);
 
       if (reset) {
         setPosts(data.posts);
@@ -61,8 +63,8 @@ const HomePage: React.FC = () => {
   // Initial fetch
   useEffect(() => {
     setPage(1);
-    fetchPosts(1, selectedTag, true, isSearch || undefined);
-  }, [selectedTag, isSearch, fetchPosts]);
+    fetchPosts(1, selectedTag, true, isSearch || undefined, isSaved);
+  }, [selectedTag, isSearch, isSaved, fetchPosts]);
 
   // Infinite scroll
   useEffect(() => {
@@ -72,7 +74,7 @@ const HomePage: React.FC = () => {
           if (entries[0].isIntersecting && hasMore && !loadingMore) {
             const nextPage = page + 1;
             setPage(nextPage);
-            fetchPosts(nextPage, selectedTag, false, isSearch || undefined);
+            fetchPosts(nextPage, selectedTag, false, isSearch || undefined, isSaved);
           }
         },
         { threshold: 0.5 }
@@ -83,7 +85,7 @@ const HomePage: React.FC = () => {
     return () => {
       if (observerRef.current) observerRef.current.disconnect();
     };
-  }, [hasMore, loadingMore, page, selectedTag, fetchPosts]);
+  }, [hasMore, loadingMore, page, selectedTag, isSaved, fetchPosts]);
 
   // Real-time updates via Socket.IO
   useEffect(() => {
@@ -197,9 +199,10 @@ const HomePage: React.FC = () => {
     </div>
   );
 
+  // Filter out any locally unbookmarked posts if we're on the saved feed
   const filteredPosts = posts.filter(p => {
     if (isSaved) {
-      return localStorage.getItem(`bookmark_${p._id}`) === 'true';
+      return p.bookmarks?.includes(user?._id || '');
     }
     return true;
   });

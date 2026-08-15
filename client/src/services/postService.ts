@@ -16,6 +16,14 @@ export const getPosts = async (
   return response.data;
 };
 
+export const getSavedPosts = async (
+  page = 1,
+  limit = 10
+): Promise<PostsResponse> => {
+  const response = await api.get<PostsResponse>('/posts/saved', { params: { page, limit } });
+  return response.data;
+};
+
 export const createPost = async (data: {
   content: string;
   type?: string;
@@ -48,5 +56,12 @@ export const votePoll = async (
   optionId: string
 ): Promise<{ success: boolean; post: Post }> => {
   const response = await api.post(`/posts/${postId}/vote`, { optionId });
+  return response.data;
+};
+
+export const toggleBookmark = async (
+  postId: string
+): Promise<{ success: boolean; post: Post }> => {
+  const response = await api.post(`/posts/${postId}/bookmark`);
   return response.data;
 };
