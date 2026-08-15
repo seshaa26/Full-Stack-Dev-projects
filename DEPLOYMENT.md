@@ -23,11 +23,6 @@
                                              │  MongoDB Atlas     │
                                              │  (Database)        │
                                              └───────────────────┘
-                                                       │
-                                             ┌─────────▼─────────┐
-                                             │  AWS S3            │
-                                             │  (Media uploads)   │
-                                             └───────────────────┘
 ```
 
 ---
@@ -73,24 +68,6 @@ Configure DNS records for your domain (`devxgen.in`):
 4. Add **Authorized Redirect URIs**:
    - `https://devxgen.in`
    - `http://localhost:5173` (for dev)
-
-### 5. AWS S3
-
-1. Create an S3 bucket: `devxgen-uploads`
-2. Configure CORS on the bucket:
-   ```json
-   [
-     {
-       "AllowedHeaders": ["*"],
-       "AllowedMethods": ["PUT", "GET"],
-       "AllowedOrigins": ["https://devxgen.in", "http://localhost:5173"],
-       "ExposeHeaders": ["ETag"],
-       "MaxAgeSeconds": 3600
-     }
-   ]
-   ```
-3. Create an IAM user with `AmazonS3FullAccess` (or a scoped policy)
-4. Copy the **Access Key ID** and **Secret Access Key**
 
 ---
 
@@ -174,10 +151,6 @@ NODE_ENV=production
 MONGO_URI=mongodb+srv://realuser:realpass@cluster.mongodb.net/devxgen?retryWrites=true&w=majority
 JWT_SECRET=<generate with: openssl rand -base64 64>
 GOOGLE_CLIENT_ID=<your-real-google-client-id>
-AWS_ACCESS_KEY_ID=<your-real-aws-key>
-AWS_SECRET_ACCESS_KEY=<your-real-aws-secret>
-AWS_REGION=ap-south-1
-AWS_S3_BUCKET=devxgen-uploads
 CLIENT_URL=https://devxgen.in
 ```
 
