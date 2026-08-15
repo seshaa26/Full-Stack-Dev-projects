@@ -59,12 +59,6 @@ const LoginPage: React.FC = () => {
         </code>
       </div>
 
-      {/* Water Drop Animation */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-full pointer-events-none z-0 flex flex-col items-center justify-center">
-         <div className="w-3 h-4 rounded-full bg-primary-400 opacity-60 animate-water-drop shadow-neon" />
-         <div className="w-32 h-12 border border-primary-400 rounded-[50%] absolute top-1/2 opacity-0 animate-ripple-effect" />
-      </div>
-
       {/* Main Content */}
       <div className="relative z-10 w-full max-w-md px-6 animate-scale-in">
         {/* Logo */}
