@@ -52,7 +52,7 @@ const LoginPage: React.FC = () => {
           git commit -m "build together"
         </code>
       </div>
-      <div className="absolute top-12 right-[25%] glass-card p-3 rounded-xl animate-float hidden 2xl:block" style={{ animationDelay: '5s' }}>
+      <div className="absolute bottom-1/3 right-16 glass-card p-3 rounded-xl animate-float hidden xl:block" style={{ animationDelay: '5s' }}>
         <code className="text-xs font-mono text-rose-600 font-bold">
           npm run start
         </code>
