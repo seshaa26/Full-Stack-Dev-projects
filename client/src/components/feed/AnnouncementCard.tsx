@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Megaphone, MessageCircle, Bookmark } from 'lucide-react';
+import { Megaphone, MessageCircle, Bookmark, Share2 } from 'lucide-react';
 import { Post, ReactionType } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import Avatar from '../ui/Avatar';
@@ -29,6 +29,12 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ post, onReact }) =>
       console.error('Failed to bookmark post:', error);
       setIsBookmarked(isBookmarked);
     }
+  };
+
+  const handleShare = () => {
+    const url = `${window.location.origin}/#announcement-${post._id}`;
+    navigator.clipboard.writeText(url);
+    alert('Announcement link copied to clipboard!');
   };
 
   return (
@@ -105,6 +111,14 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ post, onReact }) =>
             }`}
           >
             <Bookmark size={18} fill={isBookmarked ? 'currentColor' : 'none'} />
+          </button>
+          
+          <button
+            onClick={handleShare}
+            className="p-2 rounded-xl text-surface-400 hover:bg-surface-700/50 hover:text-surface-200 transition-colors"
+            title="Share Announcement"
+          >
+            <Share2 size={18} />
           </button>
         </div>
       </div>

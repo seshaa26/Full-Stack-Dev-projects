@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { BookOpen, MessageCircle, Bookmark, MoreHorizontal, Edit2, Trash2, X, Check, Image as ImageIcon } from 'lucide-react';
+import { BookOpen, MessageCircle, Bookmark, MoreHorizontal, Edit2, Trash2, X, Check, Image as ImageIcon, Share2 } from 'lucide-react';
 import { Post, ReactionType } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import Avatar from '../ui/Avatar';
@@ -52,6 +52,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, onReact }) => {
       console.error('Failed to bookmark article:', error);
       setIsBookmarked(isBookmarked);
     }
+  };
+
+  const handleShare = () => {
+    const url = `${window.location.origin}/#article-${post._id}`;
+    navigator.clipboard.writeText(url);
+    alert('Article link copied to clipboard!');
   };
 
   const handleDelete = async () => {
@@ -274,6 +280,14 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, onReact }) => {
               }`}
             >
               <Bookmark size={18} fill={isBookmarked ? 'currentColor' : 'none'} />
+            </button>
+            
+            <button
+              onClick={handleShare}
+              className="p-2 rounded-xl text-surface-400 hover:bg-surface-700/50 hover:text-surface-200 transition-colors"
+              title="Share Article"
+            >
+              <Share2 size={18} />
             </button>
           </div>
         </div>

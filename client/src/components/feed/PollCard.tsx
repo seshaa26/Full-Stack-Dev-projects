@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BarChart3, MessageCircle, Bookmark } from 'lucide-react';
+import { BarChart3, MessageCircle, Bookmark, Share2 } from 'lucide-react';
 import { Post, ReactionType } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import { useAuth } from '../../contexts/AuthContext';
@@ -30,6 +30,12 @@ const PollCard: React.FC<PollCardProps> = ({ post, onVote, onReact }) => {
       console.error('Failed to bookmark post:', error);
       setIsBookmarked(isBookmarked);
     }
+  };
+
+  const handleShare = () => {
+    const url = `${window.location.origin}/#poll-${post._id}`;
+    navigator.clipboard.writeText(url);
+    alert('Poll link copied to clipboard!');
   };
 
   const totalVotes = post.pollOptions.reduce((sum, opt) => sum + opt.votes.length, 0);
@@ -153,6 +159,14 @@ const PollCard: React.FC<PollCardProps> = ({ post, onVote, onReact }) => {
             }`}
           >
             <Bookmark size={18} fill={isBookmarked ? 'currentColor' : 'none'} />
+          </button>
+          
+          <button
+            onClick={handleShare}
+            className="p-2 rounded-xl text-surface-400 hover:bg-surface-700/50 hover:text-surface-200 transition-colors"
+            title="Share Poll"
+          >
+            <Share2 size={18} />
           </button>
         </div>
       </div>

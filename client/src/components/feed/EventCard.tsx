@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Calendar, MapPin, Link as LinkIcon, MessageCircle, Bookmark, ExternalLink, MoreHorizontal, Edit2, Trash2, X, Check, Image as ImageIcon } from 'lucide-react';
+import { Calendar, MapPin, Link as LinkIcon, MessageCircle, Bookmark, ExternalLink, MoreHorizontal, Edit2, Trash2, X, Check, Image as ImageIcon, Share2 } from 'lucide-react';
 import { Post, ReactionType } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import Avatar from '../ui/Avatar';
@@ -55,6 +55,12 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
       console.error('Failed to bookmark event:', error);
       setIsBookmarked(isBookmarked);
     }
+  };
+
+  const handleShare = () => {
+    const url = `${window.location.origin}/#event-${post._id}`;
+    navigator.clipboard.writeText(url);
+    alert('Event link copied to clipboard!');
   };
 
   const handleDelete = async () => {
@@ -345,6 +351,14 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
             }`}
           >
             <Bookmark size={18} fill={isBookmarked ? 'currentColor' : 'none'} />
+          </button>
+          
+          <button
+            onClick={handleShare}
+            className="p-2 rounded-xl text-surface-400 hover:bg-surface-700/50 hover:text-surface-200 transition-colors"
+            title="Share Event"
+          >
+            <Share2 size={18} />
           </button>
         </div>
       </div>
