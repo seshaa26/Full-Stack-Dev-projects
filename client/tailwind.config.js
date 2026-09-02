@@ -29,8 +29,8 @@ export default {
           500: '#06b6d4',
         },
         surface: {
-          950: '#f8fafc', /* Main Bg */
-          900: '#f1f5f9', /* Alt Bg */
+          950: '#ffffff', /* Main Bg */
+          900: '#f8fafc', /* Alt Bg */
           850: '#ffffff',
           800: '#ffffff', /* Card Bg */
           700: '#cbd5e1', /* Borders (Slate 300) */
