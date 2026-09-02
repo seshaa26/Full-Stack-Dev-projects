@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Terminal, Zap, Users } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import GoogleLoginButton from '../components/auth/GoogleLoginButton';
-import OracleLoginButton from '../components/auth/OracleLoginButton';
 import Logo from '../components/ui/Logo';
 import SpiderWeb from '../components/ui/SpiderWeb';
 
@@ -89,16 +88,6 @@ const LoginPage: React.FC = () => {
 
           {/* Google Sign-In */}
           <GoogleLoginButton />
-
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-4">
-            <div className="flex-1 h-px bg-surface-700/50" />
-            <span className="text-xs text-surface-500 font-medium uppercase tracking-wider">or</span>
-            <div className="flex-1 h-px bg-surface-700/50" />
-          </div>
-
-          {/* Oracle Sign-In */}
-          <OracleLoginButton />
 
           <p className="text-xs text-surface-400 font-medium text-center mt-5">
             By signing in, you agree to our Terms of Service and Privacy Policy
