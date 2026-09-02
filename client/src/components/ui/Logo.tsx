@@ -27,8 +27,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', animate = true
       <img
         src="/logo.png"
         alt="DevXgen Logo"
-        className="relative z-10 w-full h-full object-contain drop-shadow-sm brightness-110 contrast-105"
-        style={{ filter: 'brightness(1.3) contrast(1.1)' }}
+        className="relative z-10 w-full h-full object-contain drop-shadow-sm"
       />
     </div>
   );
