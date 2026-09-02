@@ -305,7 +305,7 @@ export const votePoll = async (req: AuthRequest, res: Response): Promise<void> =
 export const updatePost = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { content, tags, title, eventDate, eventLink } = req.body;
+    const { content, tags, title, eventDate, eventLink, mediaUrl } = req.body;
 
     const post = await Post.findById(id);
     if (!post) {
@@ -323,6 +323,7 @@ export const updatePost = async (req: AuthRequest, res: Response): Promise<void>
     if (title !== undefined) post.title = title;
     if (eventDate !== undefined) post.eventDate = eventDate;
     if (eventLink !== undefined) post.eventLink = eventLink;
+    if (mediaUrl !== undefined) post.mediaUrl = mediaUrl;
     
     await post.save();
 
