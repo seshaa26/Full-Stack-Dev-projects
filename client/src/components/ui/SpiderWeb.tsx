@@ -82,7 +82,7 @@ const SpiderWeb: React.FC<SpiderWebProps> = ({
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < lineDistance) {
-            const opacity = (1 - dist / lineDistance) * 0.25;
+            const opacity = (1 - dist / lineDistance) * 0.5;
             ctx.strokeStyle = `rgba(${color}, ${opacity})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
@@ -95,7 +95,7 @@ const SpiderWeb: React.FC<SpiderWebProps> = ({
 
       // Draw dots
       for (const p of points) {
-        ctx.fillStyle = `rgba(${color}, 0.3)`;
+        ctx.fillStyle = `rgba(${color}, 0.6)`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
         ctx.fill();
