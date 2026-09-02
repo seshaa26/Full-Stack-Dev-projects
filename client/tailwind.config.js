@@ -56,7 +56,7 @@ export default {
         'slide-down': 'slideDown 0.3s ease-out',
         'scale-in': 'scaleIn 0.2s ease-out',
         'pulse-glow': 'pulseGlow 2s infinite',
-        'float': 'float 6s ease-in-out infinite',
+        'float': 'float 15s ease-in-out infinite',
         'shimmer': 'shimmer 2s linear infinite',
         'bounce-in': 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
         'spin-slow': 'spin 3s linear infinite',
