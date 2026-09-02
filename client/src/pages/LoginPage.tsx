@@ -64,7 +64,7 @@ const LoginPage: React.FC = () => {
           import {'{ magic }'} from 'devxgen';
         </code>
       </div>
-      <div className="absolute bottom-16 left-[30%] glass-card p-3 rounded-xl animate-float hidden lg:block" style={{ animationDelay: '4s' }}>
+      <div className="absolute top-24 right-[15%] glass-card p-3 rounded-xl animate-float hidden lg:block" style={{ animationDelay: '4s' }}>
         <code className="text-xs font-mono text-indigo-600 font-bold">
           const growth = ∞;
         </code>
