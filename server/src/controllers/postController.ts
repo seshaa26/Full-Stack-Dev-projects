@@ -28,9 +28,10 @@ export const getPosts = async (req: AuthRequest, res: Response): Promise<void> =
 
     const skip = (page - 1) * limit;
 
-    let sortOption: any = { createdAt: -1 };
+    // Add _id: -1 as a secondary tie-breaker for deterministic sorting if createdAt timestamps are identical
+    let sortOption: any = { createdAt: -1, _id: -1 };
     if (sort === 'trending') {
-      sortOption = { commentsCount: -1, createdAt: -1 };
+      sortOption = { commentsCount: -1, createdAt: -1, _id: -1 };
     }
 
     const [posts, total] = await Promise.all([
