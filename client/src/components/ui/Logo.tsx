@@ -8,10 +8,10 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', animate = true }) => {
   const sizeMap = {
-    sm: 'w-12 h-12',
-    md: 'w-16 h-16',
-    lg: 'w-24 h-24',
-    xl: 'w-32 h-32',
+    sm: 'w-14 h-14',
+    md: 'w-20 h-20',
+    lg: 'w-28 h-28',
+    xl: 'w-36 h-36',
   };
 
   const dimensions = sizeMap[size];
@@ -22,13 +22,13 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', animate = true
       {animate && (
         <div className="absolute inset-0 bg-primary-500 rounded-full blur-xl opacity-10 animate-pulse-glow"></div>
       )}
-      
+
       {/* DX Infinite Logo */}
       <img
         src="/logo.png"
         alt="DevXgen Logo"
         className="relative z-10 w-full h-full object-contain drop-shadow-sm brightness-110 contrast-105"
-        style={{ filter: 'brightness(1.15) contrast(1.05)' }}
+        style={{ filter: 'brightness(1.3) contrast(1.1)' }}
       />
     </div>
   );
