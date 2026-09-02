@@ -35,7 +35,16 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({ text, delay = 0, speed 
 
   return (
     <span>
-      {displayedText}
+      {displayedText.split('').map((char, index) => {
+        if (char === '∞') {
+          return (
+            <span key={index} className="text-base font-sans align-middle inline-block transform translate-y-[-1px]">
+              {char}
+            </span>
+          );
+        }
+        return <span key={index}>{char}</span>;
+      })}
       <span
         className={`inline-block w-[6px] h-[1em] ml-1 bg-current align-text-bottom ${
           isTyping ? 'animate-pulse' : 'animate-[pulse_1s_infinite]'
