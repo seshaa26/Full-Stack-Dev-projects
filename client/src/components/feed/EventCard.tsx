@@ -303,7 +303,7 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
           </div>
 
           {/* Description */}
-          <div className="text-surface-300 text-sm leading-relaxed mb-4 whitespace-pre-wrap">
+          <div className="text-surface-200 text-sm leading-relaxed mb-4 whitespace-pre-wrap">
             {post.content}
           </div>
 

@@ -11,7 +11,7 @@
 | **Frontend** | React, Vite, TypeScript, Tailwind CSS, Lucide Icons, React Router |
 | **Backend** | Node.js, Express, TypeScript, Socket.IO |
 | **Database** | MongoDB (Mongoose ODM) |
-| **Auth** | Google OAuth 2.0 & Oracle OAuth + JWT |
+| **Auth** | Google OAuth 2.0 + JWT |
 | **Media** | AWS S3 presigned URLs |
 
 ## Getting Started
@@ -90,7 +90,7 @@ npm run dev
 
 ## Features
 
-- 🔐 **OAuth Integration** — Secure sign-in via Google & Oracle Cloud
+- 🔐 **OAuth Integration** — Secure sign-in via Google
 - 📝 **Rich Posts** — Text, images, code blocks, and link previews
 - 📊 **Interactive Polls** — Live voting with animated progress bars
 - 📢 **Announcements** — Visually distinct community updates

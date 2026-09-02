@@ -64,7 +64,7 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ post, onReact }) =>
       </div>
 
       {/* Content */}
-      <div className="text-surface-100 text-sm leading-relaxed mb-3 font-medium">
+      <div className="text-surface-200 text-sm leading-relaxed mb-3">
         {post.content}
       </div>
 
