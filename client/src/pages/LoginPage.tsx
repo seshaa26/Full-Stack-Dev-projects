@@ -74,7 +74,7 @@ const LoginPage: React.FC = () => {
         {/* Logo */}
         <div className="text-center mb-8 flex flex-col items-center">
           <Logo size="lg" className="mb-6 relative z-10" />
-          <h1 className="text-4xl font-extrabold gradient-text mb-2">DevXgen</h1>
+          <h1 className="text-3xl font-extrabold gradient-text mb-2">DevXgen</h1>
           <p className="text-surface-500 text-lg">
             Where Developers Interact, Share & Grow
           </p>
