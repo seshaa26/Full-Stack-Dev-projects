@@ -15,8 +15,12 @@ export const getComments = async (
 
 export const createComment = async (
   postId: string,
-  content: string
+  content: string,
+  parentComment?: string
 ): Promise<{ success: boolean; comment: Comment }> => {
-  const response = await api.post(`/posts/${postId}/comments`, { content });
+  const response = await api.post(`/posts/${postId}/comments`, { 
+    content, 
+    parentComment 
+  });
   return response.data;
 };

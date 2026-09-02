@@ -51,6 +51,8 @@ export interface Comment {
   post: string;
   author: User;
   content: string;
+  parentComment?: string;
+  replies?: Comment[];
   createdAt: string;
 }
 

@@ -15,15 +15,26 @@ export const getComments = async (req: AuthRequest, res: Response): Promise<void
     const limit = parseInt(req.query.limit as string) || 20;
     const skip = (page - 1) * limit;
 
-    const [comments, total] = await Promise.all([
-      Comment.find({ post: id })
+    const [topLevelComments, total] = await Promise.all([
+      Comment.find({ post: id, parentComment: null })
         .populate('author', 'name email avatar')
         .sort({ createdAt: 1 })
         .skip(skip)
         .limit(limit)
         .lean(),
-      Comment.countDocuments({ post: id }),
+      Comment.countDocuments({ post: id, parentComment: null }),
     ]);
+
+    const topLevelIds = topLevelComments.map(c => c._id);
+    const replies = await Comment.find({ post: id, parentComment: { $in: topLevelIds } })
+      .populate('author', 'name email avatar')
+      .sort({ createdAt: 1 })
+      .lean();
+
+    const comments = topLevelComments.map(c => ({
+      ...c,
+      replies: replies.filter(r => r.parentComment?.toString() === c._id.toString())
+    }));
 
     res.status(200).json({
       success: true,
@@ -47,7 +58,7 @@ export const getComments = async (req: AuthRequest, res: Response): Promise<void
 export const createComment = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { content } = req.body;
+    const { content, parentComment } = req.body;
 
     if (!content) {
       res.status(400).json({ message: 'Comment content is required' });
@@ -65,6 +76,7 @@ export const createComment = async (req: AuthRequest, res: Response): Promise<vo
       post: id,
       author: req.userId,
       content,
+      parentComment: parentComment || null,
     });
 
     // Increment comment count on post
@@ -150,8 +162,12 @@ export const deleteComment = async (req: AuthRequest, res: Response): Promise<vo
 
     await comment.deleteOne();
 
+    // Delete associated replies
+    const repliesResult = await Comment.deleteMany({ parentComment: commentId });
+    const totalDeleted = 1 + repliesResult.deletedCount;
+
     // Decrement comment count on post
-    await Post.findByIdAndUpdate(postId, { $inc: { commentsCount: -1 } });
+    await Post.findByIdAndUpdate(postId, { $inc: { commentsCount: -totalDeleted } });
 
     const io = getIO();
     io.to('feed').emit('comment-deleted', { postId, commentId });

@@ -5,9 +5,10 @@ import Avatar from '../ui/Avatar';
 
 interface CommentFormProps {
   onSubmit: (content: string) => Promise<void>;
+  placeholder?: string;
 }
 
-const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
+const CommentForm: React.FC<CommentFormProps> = ({ onSubmit, placeholder = "Write a comment..." }) => {
   const { user, isAuthenticated } = useAuth();
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
           type="text"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="Write a comment..."
+          placeholder={placeholder}
           className="w-full pr-10 px-4 py-2.5 rounded-xl bg-surface-800/60 border border-surface-700/50
                    text-sm text-surface-200 placeholder-surface-500
                    focus:outline-none focus:border-primary-500/40 focus:ring-1 focus:ring-primary-500/20

@@ -4,6 +4,7 @@ export interface IComment extends Document {
   post: Types.ObjectId;
   author: Types.ObjectId;
   content: string;
+  parentComment?: Types.ObjectId;
   createdAt: Date;
 }
 
@@ -25,6 +26,11 @@ const commentSchema = new Schema<IComment>(
       required: true,
       trim: true,
       maxlength: 2000,
+    },
+    parentComment: {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+      default: null,
     },
   },
   {
