@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import GoogleLoginButton from '../components/auth/GoogleLoginButton';
 import OracleLoginButton from '../components/auth/OracleLoginButton';
 import Logo from '../components/ui/Logo';
+import SpiderWeb from '../components/ui/SpiderWeb';
 
 const LoginPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -26,12 +27,9 @@ const LoginPage: React.FC = () => {
         <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
       </div>
 
-      {/* Ripple Animation centered on the entire page */}
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0">
-        <div className="absolute w-12 h-12 rounded-full border border-primary-400 opacity-0 animate-minor-ripple" />
-        <div className="absolute w-12 h-12 rounded-full border border-primary-500 opacity-0 animate-[minorRipple_8s_ease-out_infinite_2s]" />
-        <div className="absolute w-12 h-12 rounded-full border border-primary-400 opacity-0 animate-[minorRipple_8s_ease-out_infinite_4s]" />
-        <div className="absolute w-12 h-12 rounded-full border border-primary-500 opacity-0 animate-[minorRipple_8s_ease-out_infinite_6s]" />
+      {/* Spider Web Animation */}
+      <div className="absolute inset-0 z-0">
+        <SpiderWeb particleCount={50} lineDistance={130} />
       </div>
 
       {/* Floating Code Decorations */}
