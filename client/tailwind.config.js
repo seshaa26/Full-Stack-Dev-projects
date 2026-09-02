@@ -61,6 +61,7 @@ export default {
         'bounce-in': 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
         'spin-slow': 'spin 3s linear infinite',
         'minor-ripple': 'minorRipple 8s ease-out infinite',
+        'data-packet': 'dataPacket linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -98,6 +99,12 @@ export default {
           '50%': { transform: 'scale(1.05)' },
           '70%': { transform: 'scale(0.9)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        dataPacket: {
+          '0%': { transform: 'translate(0, 0) rotate(45deg)', opacity: '0' },
+          '20%': { opacity: '0.8' },
+          '80%': { opacity: '0.8' },
+          '100%': { transform: 'translate(800px, 800px) rotate(45deg)', opacity: '0' },
         },
       },
       boxShadow: {

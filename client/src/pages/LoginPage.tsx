@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import GoogleLoginButton from '../components/auth/GoogleLoginButton';
 import Logo from '../components/ui/Logo';
 import SpiderWeb from '../components/ui/SpiderWeb';
+import DataPackets from '../components/ui/DataPackets';
 
 const LoginPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -30,6 +31,9 @@ const LoginPage: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <SpiderWeb particleCount={70} lineDistance={140} />
       </div>
+
+      {/* Shooting Stars / Data Packets */}
+      <DataPackets />
 
       {/* Floating Code Decorations */}
       <div className="absolute top-16 left-12 glass-card p-3 rounded-xl animate-float hidden lg:block">
