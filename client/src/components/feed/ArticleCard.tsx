@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { BookOpen, MessageCircle, Bookmark, MoreHorizontal, Edit2, Trash2, X, Check } from 'lucide-react';
+import { BookOpen, MessageCircle, Bookmark, MoreHorizontal, Edit2, Trash2, X, Check, Image as ImageIcon } from 'lucide-react';
 import { Post, ReactionType } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import Avatar from '../ui/Avatar';
@@ -23,12 +23,13 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, onReact }) => {
 
   const [showMenu, setShowMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-
   const [editContent, setEditContent] = useState(post.content);
   const [editTitle, setEditTitle] = useState(post.title || '');
+  const [editMediaUrl, setEditMediaUrl] = useState(post.mediaUrl || '');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const isAuthor = user?._id === post.author._id || user?._id === (post.author as any);
 
@@ -64,6 +65,22 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, onReact }) => {
     }
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Image size exceeds 10MB limit.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setEditMediaUrl(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleUpdate = async () => {
     if (!editContent.trim()) {
       setIsEditing(false);
@@ -73,7 +90,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, onReact }) => {
     try {
       await api.put(`/posts/${post._id}`, { 
         content: editContent,
-        title: editTitle
+        title: editTitle,
+        mediaUrl: editMediaUrl
       });
       setIsEditing(false);
     } catch (error) {
@@ -146,14 +164,51 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, onReact }) => {
               onChange={(e) => setEditContent(e.target.value)}
               className="textarea-field min-h-[200px]"
             />
-            <div className="flex justify-end gap-2 pt-2">
-              <Button variant="secondary" size="sm" onClick={() => setIsEditing(false)}>
-                <X size={14} className="mr-1" /> Cancel
-              </Button>
-              <Button variant="primary" size="sm" onClick={handleUpdate} loading={isSaving}>
-                <Check size={14} className="mr-1" /> Save
-              </Button>
+            <div className="flex justify-between items-center mt-2">
+              <div>
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleImageUpload} 
+                  accept="image/*" 
+                  className="hidden" 
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-surface-400 hover:text-primary-500 transition-colors p-1"
+                  title="Change Image"
+                >
+                  <ImageIcon size={18} />
+                </button>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="secondary" size="sm" onClick={() => {
+                  setIsEditing(false);
+                  setEditContent(post.content);
+                  setEditTitle(post.title || '');
+                  setEditMediaUrl(post.mediaUrl || '');
+                }}>
+                  <X size={14} className="mr-1" /> Cancel
+                </Button>
+                <Button variant="primary" size="sm" onClick={handleUpdate} loading={isSaving}>
+                  <Check size={14} className="mr-1" /> Save
+                </Button>
+              </div>
             </div>
+            
+            {editMediaUrl && (
+              <div className="mt-3 relative inline-block">
+                <img src={editMediaUrl} alt="Edit preview" className="rounded-lg max-h-48 object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setEditMediaUrl('')}
+                  className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black text-white rounded-full transition-colors backdrop-blur-sm"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <>

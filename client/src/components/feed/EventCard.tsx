@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Calendar, MapPin, Link as LinkIcon, MessageCircle, Bookmark, ExternalLink, MoreHorizontal, Edit2, Trash2, X, Check } from 'lucide-react';
+import { Calendar, MapPin, Link as LinkIcon, MessageCircle, Bookmark, ExternalLink, MoreHorizontal, Edit2, Trash2, X, Check, Image as ImageIcon } from 'lucide-react';
 import { Post, ReactionType } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import Avatar from '../ui/Avatar';
@@ -26,11 +26,13 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [editContent, setEditContent] = useState(post.content);
   const [editTitle, setEditTitle] = useState(post.title || '');
   const [editDate, setEditDate] = useState(post.eventDate ? new Date(post.eventDate).toISOString().slice(0, 16) : '');
   const [editLink, setEditLink] = useState(post.eventLink || '');
+  const [editMediaUrl, setEditMediaUrl] = useState(post.mediaUrl || '');
 
   const isAuthor = user?._id === post.author._id || user?._id === (post.author as any);
 
@@ -66,6 +68,22 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
     }
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Image size exceeds 10MB limit.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setEditMediaUrl(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleUpdate = async () => {
     if (!editContent.trim()) {
       setIsEditing(false);
@@ -77,7 +95,8 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
         content: editContent,
         title: editTitle,
         eventDate: editDate ? new Date(editDate).toISOString() : undefined,
-        eventLink: editLink
+        eventLink: editLink,
+        mediaUrl: editMediaUrl
       });
       setIsEditing(false);
     } catch (error) {
@@ -180,14 +199,53 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
             onChange={(e) => setEditContent(e.target.value)}
             className="textarea-field min-h-[100px]"
           />
-          <div className="flex justify-end gap-2 pt-2">
-            <Button variant="secondary" size="sm" onClick={() => setIsEditing(false)}>
-              <X size={14} className="mr-1" /> Cancel
-            </Button>
-            <Button variant="primary" size="sm" onClick={handleUpdate} loading={isSaving}>
-              <Check size={14} className="mr-1" /> Save
-            </Button>
+          <div className="flex justify-between items-center mt-2">
+            <div>
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleImageUpload} 
+                accept="image/*" 
+                className="hidden" 
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="text-surface-400 hover:text-primary-500 transition-colors p-1"
+                title="Change Image"
+              >
+                <ImageIcon size={18} />
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="secondary" size="sm" onClick={() => {
+                setIsEditing(false);
+                setEditContent(post.content);
+                setEditTitle(post.title || '');
+                setEditDate(post.eventDate ? new Date(post.eventDate).toISOString().slice(0, 16) : '');
+                setEditLink(post.eventLink || '');
+                setEditMediaUrl(post.mediaUrl || '');
+              }}>
+                <X size={14} className="mr-1" /> Cancel
+              </Button>
+              <Button variant="primary" size="sm" onClick={handleUpdate} loading={isSaving}>
+                <Check size={14} className="mr-1" /> Save
+              </Button>
+            </div>
           </div>
+          
+          {editMediaUrl && (
+            <div className="mt-3 relative inline-block">
+              <img src={editMediaUrl} alt="Edit preview" className="rounded-lg max-h-48 object-cover" />
+              <button
+                type="button"
+                onClick={() => setEditMediaUrl('')}
+                className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black text-white rounded-full transition-colors backdrop-blur-sm"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <>
@@ -244,7 +302,7 @@ const EventCard: React.FC<EventCardProps> = ({ post, onReact }) => {
           </div>
 
           {/* Media/Photo */}
-          {post.mediaUrl && (
+      {post.mediaUrl && !isEditing && (
             <div className="mb-4 rounded-xl overflow-hidden border border-surface-700/50 bg-surface-900/50">
               <img src={post.mediaUrl} alt="Event" className="w-full max-h-96 object-cover" loading="lazy" />
             </div>
