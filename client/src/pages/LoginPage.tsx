@@ -29,7 +29,7 @@ const LoginPage: React.FC = () => {
 
       {/* Spider Web Animation */}
       <div className="absolute inset-0 z-0">
-        <SpiderWeb particleCount={90} lineDistance={140} />
+        <SpiderWeb particleCount={70} lineDistance={140} />
       </div>
 
       {/* Floating Code Decorations */}
@@ -62,6 +62,11 @@ const LoginPage: React.FC = () => {
       <div className="absolute top-1/2 left-8 glass-card p-3 rounded-xl animate-float hidden xl:block" style={{ animationDelay: '6s' }}>
         <code className="text-xs font-mono text-teal-600 font-bold">
           import {'{ magic }'} from 'devxgen';
+        </code>
+      </div>
+      <div className="absolute bottom-16 left-[30%] glass-card p-3 rounded-xl animate-float hidden lg:block" style={{ animationDelay: '4s' }}>
+        <code className="text-xs font-mono text-indigo-600 font-bold">
+          const growth = Infinity;
         </code>
       </div>
 
